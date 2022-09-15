@@ -1,4 +1,3 @@
-# biblioteca robusta de manipulação de argumentos
 # Library to process command line arguments
 import argparse
 
