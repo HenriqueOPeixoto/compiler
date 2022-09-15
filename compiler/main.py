@@ -13,8 +13,7 @@ args = parse_cmd_args()
 
 try:
     input_file = open(args.file, 'r')
-    conteudo = input_file.read()
-    print(conteudo)
+    
 
     input_file.close()
 
