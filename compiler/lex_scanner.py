@@ -1,8 +1,8 @@
 import my_token
 
 EOF = -1
-DIGIT = 0
-NOT_DIGIT = 1
+DIGIT = 1
+NOT_DIGIT = 2
 
 class LexScanner:
 
