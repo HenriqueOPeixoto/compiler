@@ -13,6 +13,9 @@ class LexScanner:
         self.content = content
 
     def next_token(self) -> my_token.Token:
+        if self.pos == len(self.content):
+            return my_token.Token('$', EOF)
+
         state = 0
         buffer = []
         while (True):
@@ -28,13 +31,14 @@ class LexScanner:
                 else:
                     state = NOT_DIGIT
             elif state == NOT_DIGIT:
-                return my_token.Token(int("".join(buffer)), DIGIT)
+                return my_token.Token(int(''.join(buffer)), DIGIT)
             
             self.pos += 1
 
             print(buffer)
 
             if self.pos == len(self.content):
-                return my_token.Token("", EOF)
+                if state != 0:
+                    return my_token.Token(''.join(buffer), state - 1) # Sai do estado NOT_X e vai para o X.
 
 
