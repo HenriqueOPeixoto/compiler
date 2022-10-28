@@ -6,6 +6,23 @@ NOT_DIGIT = 2
 SPACE = 3
 NOT_SPACE = 4
 NEWLINE_TOKEN = 5
+OPERATOR = 6
+
+OPERATOR_LIST = ['+', '-', '*', '/']
+KEYWORD_LIST = [
+    'program',
+    'begin',
+    'end',
+    'real',
+    'integer',
+    'read',
+    'write',
+    'if',
+    'then'
+    'while',
+    'do'
+]
+LOGICAL_OP_LIST = ['<', '>', '<>', '>=', '<=', '=']
 
 class LexScanner:
 
