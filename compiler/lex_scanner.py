@@ -10,6 +10,7 @@ NEWLINE_TOKEN = 5
 class LexScanner:
 
     content = ""
+    state = 0
     pos = 0
 
     def __init__(self, content) -> None:
@@ -19,6 +20,9 @@ class LexScanner:
         self.state = 0
         buffer = []
         while (True):
+            if self.pos == len(self.content):
+                return my_token.Token("$", EOF)
+
             c = self.content[self.pos]
 
             if self.state == 0:
@@ -35,7 +39,7 @@ class LexScanner:
                     self.state = NOT_DIGIT
             elif self.state == NOT_DIGIT:
                 self.pos -= 1
-                return my_token.Token(int(buffer), DIGIT)
+                return my_token.Token(int("".join(buffer)), DIGIT)
             elif self.state == SPACE:
                 if c in [' ', '\n']:
                     buffer.append(c)
@@ -52,10 +56,8 @@ class LexScanner:
             
             self.pos += 1
 
-            print(buffer)
-
             if self.pos == len(self.content):
-                if state != 0:
-                    return my_token.Token(''.join(buffer), state - 1) # Sai do estado NOT_X e vai para o X.
+                if self.state != 0:
+                    return my_token.Token(''.join(buffer), self.state - 1) # Sai do estado NOT_X e vai para o X.
 
 
