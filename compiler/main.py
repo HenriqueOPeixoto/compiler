@@ -29,7 +29,8 @@ try:
 
     input_file.close()
 
-    print(tokens)
+    for token in tokens:
+        print(token.to_string())
 
 except FileNotFoundError:
     print('Não foi possível encontrar o arquivo especificado.')
