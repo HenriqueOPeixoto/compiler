@@ -1,11 +1,11 @@
 import my_token
 
 EOF = -1
-DIGIT = 0
-NOT_DIGIT = 1
-SPACE = 2
-NOT_SPACE = 3
-NEWLINE_TOKEN = 4
+DIGIT = 1
+NOT_DIGIT = 2
+SPACE = 3
+NOT_SPACE = 4
+NEWLINE_TOKEN = 5
 
 class LexScanner:
 
