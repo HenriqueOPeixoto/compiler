@@ -10,7 +10,6 @@ NEWLINE_TOKEN = 5
 class LexScanner:
 
     content = ""
-    state = 0
     pos = 0
 
     def __init__(self, content) -> None:
@@ -56,6 +55,7 @@ class LexScanner:
             print(buffer)
 
             if self.pos == len(self.content):
-                return my_token.Token("", EOF)
+                if state != 0:
+                    return my_token.Token(''.join(buffer), state - 1) # Sai do estado NOT_X e vai para o X.
 
 
