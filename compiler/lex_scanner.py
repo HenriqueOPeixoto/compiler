@@ -31,15 +31,26 @@ class LexScanner:
     pos = 0
 
     def __init__(self, content) -> None:
-        self.content = content
+        self.content = content + '\0'
+
+    def is_end(self, c: chr) -> bool:
+        if c == '\0':
+            return True
+        
+        return False
 
     def next_token(self) -> my_token.Token:
-        self.state = 0
         buffer = []
-        while (True):
-            if self.pos == len(self.content):
-                return my_token.Token("$", EOF)
 
+        if self.pos == len(self.content):
+            return my_token.Token('$', EOF)
+        
+        if self.is_end(self.content[self.pos]):
+            return my_token.Token('$', EOF)
+
+        self.state = 0
+        
+        while (True):
             c = self.content[self.pos]
 
             if self.state == 0:
@@ -78,8 +89,10 @@ class LexScanner:
 
             self.pos += 1
 
-            if self.pos == len(self.content):
-                if self.state != 0:
-                    return my_token.Token(''.join(buffer), self.state - 1) # Sai do estado NOT_X e vai para o X.
+            if self.is_end(c):
+                if self.state != OPERATOR:
+                    self.state -= 1
+                
+                return my_token.Token(''.join(buffer), self.state) # Sai do estado NOT_X e vai para o X.
 
 
