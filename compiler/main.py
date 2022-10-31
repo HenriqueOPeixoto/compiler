@@ -2,7 +2,7 @@
 import argparse
 import lex_scanner
 
-# Parse aguments inserted via command line interface
+# Parse arguments inserted via command line interface
 def parse_cmd_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('file', help='The path to the file you wish to compile.')
@@ -30,7 +30,8 @@ try:
     input_file.close()
 
     for token in tokens:
-        print(token.to_string())
+        if token.type != 3 and token.type != 5:
+            print(token.to_string())
 
 except FileNotFoundError:
     print('Não foi possível encontrar o arquivo especificado.')
