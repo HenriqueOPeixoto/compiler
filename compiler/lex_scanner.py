@@ -49,6 +49,9 @@ class LexScanner:
                 elif c in [' ', '\n']:
                     buffer.append(c)
                     self.state = SPACE
+                elif c in OPERATOR_LIST:
+                    buffer.append(c)
+                    self.state = OPERATOR
             elif self.state == DIGIT:
                 if c.isnumeric():
                     buffer.append(c)
@@ -70,7 +73,9 @@ class LexScanner:
                     return my_token.Token(buffer, NEWLINE_TOKEN)
                 else:
                     return my_token.Token(buffer, SPACE)
-            
+            elif self.state == OPERATOR:
+                return my_token.Token(buffer, OPERATOR)
+
             self.pos += 1
 
             if self.pos == len(self.content):
