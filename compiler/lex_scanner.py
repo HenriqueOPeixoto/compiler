@@ -7,6 +7,10 @@ SPACE = 3
 NOT_SPACE = 4
 NEWLINE_TOKEN = 5
 OPERATOR = 6
+TXT_LITERAL = 7
+NOT_TXT_LITERAL = 8
+KEYWORD = 9
+IDENT = 10
 
 OPERATOR_LIST = ['+', '-', '*', '/']
 KEYWORD_LIST = [
@@ -18,7 +22,7 @@ KEYWORD_LIST = [
     'read',
     'write',
     'if',
-    'then'
+    'then',
     'while',
     'do'
 ]
@@ -63,6 +67,9 @@ class LexScanner:
                 elif c in OPERATOR_LIST:
                     buffer.append(c)
                     self.state = OPERATOR
+                elif c.isalpha():
+                    buffer.append(c)
+                    self.state = TXT_LITERAL
             elif self.state == DIGIT:
                 if c.isnumeric():
                     buffer.append(c)
@@ -86,7 +93,19 @@ class LexScanner:
                     return my_token.Token(buffer, SPACE)
             elif self.state == OPERATOR:
                 return my_token.Token(buffer, OPERATOR)
-
+            elif self.state == TXT_LITERAL:
+                if c.isalnum():
+                    buffer.append(c)
+                else:
+                    self.state = NOT_TXT_LITERAL
+            elif self.state == NOT_TXT_LITERAL:
+                text = ''.join(buffer)
+                
+                if text in KEYWORD_LIST:
+                    return my_token.Token(text, KEYWORD)
+                else: 
+                    return my_token.Token(text, IDENT)
+            
             self.pos += 1
 
             if self.is_end(c):
