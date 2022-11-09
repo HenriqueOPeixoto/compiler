@@ -8,6 +8,10 @@ SPACE = 3
 NOT_SPACE = 4
 NEWLINE_TOKEN = 5
 OPERATOR = 6
+TXT_LITERAL = 7
+NOT_TXT_LITERAL = 8
+KEYWORD = 9
+IDENT = 10
 
 OPERATOR_LIST = ['+', '-', '*', '/']
 COMMENT_LIST = ['{']
@@ -20,7 +24,7 @@ KEYWORD_LIST = [
     'read',
     'write',
     'if',
-    'then'
+    'then',
     'while',
     'do'
 ]
