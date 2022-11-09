@@ -1,5 +1,6 @@
 import my_token
 
+COMMENT = -2
 EOF = -1
 DIGIT = 1
 NOT_DIGIT = 2
@@ -9,6 +10,7 @@ NEWLINE_TOKEN = 5
 OPERATOR = 6
 
 OPERATOR_LIST = ['+', '-', '*', '/']
+COMMENT_LIST = ['{']
 KEYWORD_LIST = [
     'program',
     'begin',
@@ -61,8 +63,17 @@ class LexScanner:
                     buffer.append(c)
                     self.state = SPACE
                 elif c in OPERATOR_LIST:
+                    if c == '/':
+                        self.pos += 1 # Avança uma pos para verificar se é comentário
+                        if self.content[self.pos] == '*':
+                            self.state = COMMENT
+                            continue
+                        else:
+                            self.pos -= 1 # Volta para a posição inicial se não for
                     buffer.append(c)
                     self.state = OPERATOR
+                elif c in COMMENT_LIST:
+                    self.state = COMMENT
             elif self.state == DIGIT:
                 if c.isnumeric():
                     buffer.append(c)
@@ -86,6 +97,16 @@ class LexScanner:
                     return my_token.Token(buffer, SPACE)
             elif self.state == OPERATOR:
                 return my_token.Token(buffer, OPERATOR)
+            elif self.state == COMMENT:
+                if c == '*':
+                    self.pos += 1 # Avança uma posição para verificar se há é comentário
+                    if self.content[self.pos] == '/':
+                        self.pos += 1
+                        return my_token.Token('', COMMENT)
+                    else:
+                        self.pos -= 1 # Volta para a posição inicial se não for
+                elif c == '}':
+                    return my_token.Token('', COMMENT)
 
             self.pos += 1
 
