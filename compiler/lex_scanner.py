@@ -27,6 +27,7 @@ KEYWORD_LIST = [
     'write',
     'if',
     'then',
+    'else',
     'while',
     'do'
 ]
