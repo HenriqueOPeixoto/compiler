@@ -5,4 +5,4 @@ class Token:
         self.type = type
 
     def to_string(self) -> str:
-        return '{}: {}'.format(self.value, self.type)
+        return '[{}: {}]'.format(self.value, self.type)
