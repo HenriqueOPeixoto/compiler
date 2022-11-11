@@ -91,6 +91,7 @@ class LexScanner:
 
                 # ===================END OF STATE 0 ====================
                 
+                # =================== DIGIT ====================
             elif self.state == DIGIT:
                 if c.isnumeric():
                     buffer.append(c)
@@ -100,6 +101,8 @@ class LexScanner:
             elif self.state == NOT_DIGIT:
                 self.pos -= 1
                 return my_token.Token(int("".join(buffer)), DIGIT)
+            
+            # =================== SPACE ====================
 
             elif self.state == SPACE:
                 if c in [' ', '\n']:
@@ -115,8 +118,12 @@ class LexScanner:
                 else:
                     return my_token.Token(buffer, SPACE)
 
+            # =================== OPERATOR ====================
+
             elif self.state == OPERATOR:
                 return my_token.Token(buffer, OPERATOR)
+            
+            # =================== COMMENT ====================
 
             elif self.state == COMMENT:
                 if c == '*':
@@ -128,6 +135,8 @@ class LexScanner:
                         self.pos -= 1 # Volta para a posição inicial se não for
                 elif c == '}':
                     return my_token.Token('', COMMENT)
+
+            # =================== LOGICAL OP ====================
 
             elif self.state == LOGICAL_OP:
                 if c in LOGICAL_OP_LIST:
