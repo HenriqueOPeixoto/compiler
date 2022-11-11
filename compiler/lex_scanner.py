@@ -87,6 +87,10 @@ class LexScanner:
                 elif c in LOGICAL_OP_LIST:
                     buffer.append(c)
                     self.state = LOGICAL_OP
+                
+                elif c.isalpha():
+                    buffer.append(c)
+                    self.state = TXT_LITERAL
                         
 
                 # ===================END OF STATE 0 ====================
@@ -147,6 +151,24 @@ class LexScanner:
             elif self.state == NOT_LOGICAL_OP:
                 self.pos -= 1
                 return my_token.Token(''.join(buffer), LOGICAL_OP)
+
+            # =================== TXT LITERAL OR IDENT ====================
+            
+            elif self.state == TXT_LITERAL:
+                if c.isalnum():
+                    buffer.append(c)
+                else:
+                    self.state = NOT_TXT_LITERAL
+            
+            elif self.state == NOT_TXT_LITERAL:
+                self.pos -= 1
+                buffer = ''.join(buffer)
+                if buffer in KEYWORD_LIST:
+                    return my_token.Token(buffer, KEYWORD)
+                else:
+                    return my_token.Token(buffer, IDENT)
+
+
 
             self.pos += 1
 
