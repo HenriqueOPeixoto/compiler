@@ -63,9 +63,11 @@ class LexScanner:
                 if c.isnumeric():
                     buffer.append(c)
                     self.state = DIGIT
+
                 elif c in [' ', '\n']:
                     buffer.append(c)
                     self.state = SPACE
+
                 elif c in OPERATOR_LIST:
                     if c == '/':
                         self.pos += 1 # Avança uma pos para verificar se é comentário
@@ -76,31 +78,37 @@ class LexScanner:
                             self.pos -= 1 # Volta para a posição inicial se não for
                     buffer.append(c)
                     self.state = OPERATOR
+
                 elif c in COMMENT_LIST:
                     self.state = COMMENT
+                
             elif self.state == DIGIT:
                 if c.isnumeric():
                     buffer.append(c)
                 else:
                     self.state = NOT_DIGIT
+
             elif self.state == NOT_DIGIT:
                 self.pos -= 1
                 return my_token.Token(int("".join(buffer)), DIGIT)
+
             elif self.state == SPACE:
                 if c in [' ', '\n']:
                     buffer.append(c)
                     self.state = SPACE
                 else:
                     self.state = NOT_SPACE
+
             elif self.state == NOT_SPACE:
                 self.pos -= 1
-
                 if '\n' in buffer:
                     return my_token.Token(buffer, NEWLINE_TOKEN)
                 else:
                     return my_token.Token(buffer, SPACE)
+
             elif self.state == OPERATOR:
                 return my_token.Token(buffer, OPERATOR)
+                
             elif self.state == COMMENT:
                 if c == '*':
                     self.pos += 1 # Avança uma posição para verificar se há é comentário
