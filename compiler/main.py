@@ -29,9 +29,14 @@ try:
 
     input_file.close()
 
+    line_number = 1
+    print('\n{:5d} | '.format(line_number), end=' ')
     for token in tokens:
-        if token.type != 3 and token.type != 5:
-            print(token.to_string())
+        if token.type == 5:
+            line_number += 1
+            print('\n{:5d} | '.format(line_number), end=' ')
+        elif token.type != 3:
+            print(token.to_string(), end=' ')
 
 except FileNotFoundError:
     print('Não foi possível encontrar o arquivo especificado.')
