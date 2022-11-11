@@ -14,6 +14,8 @@ KEYWORD = 9
 IDENT = 10
 LOGICAL_OP = 11
 NOT_LOGICAL_OP = 12
+ATRIB = 13
+NOT_ATRIB = 14
 
 OPERATOR_LIST = ['+', '-', '*', '/']
 COMMENT_LIST = ['{']
@@ -92,6 +94,10 @@ class LexScanner:
                 elif c.isalpha():
                     buffer.append(c)
                     self.state = TXT_LITERAL
+                
+                elif c == ':':
+                    buffer.append(c)
+                    self.state = ATRIB
                         
 
                 # ===================END OF STATE 0 ====================
@@ -169,7 +175,21 @@ class LexScanner:
                 else:
                     return my_token.Token(buffer, IDENT)
 
+            # =================== ATRIB ====================
 
+            elif self.state == ATRIB:
+                if c == '=':
+                    buffer.append(c)
+                else:
+                    self.state = NOT_ATRIB
+            
+            elif self.state == NOT_ATRIB:
+                self.pos -= 1
+                buffer = ''.join(buffer)
+                if buffer in [':', ':=']:
+                    return my_token.Token(buffer, ATRIB)
+                else:
+                    raise Exception('Erro: Esperava um token de atribuição.')
 
             self.pos += 1
 
