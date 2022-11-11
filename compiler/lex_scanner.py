@@ -12,6 +12,8 @@ TXT_LITERAL = 7
 NOT_TXT_LITERAL = 8
 KEYWORD = 9
 IDENT = 10
+LOGICAL_OP = 11
+NOT_LOGICAL_OP = 12
 
 OPERATOR_LIST = ['+', '-', '*', '/']
 COMMENT_LIST = ['{']
@@ -82,6 +84,13 @@ class LexScanner:
                 elif c in COMMENT_LIST:
                     self.state = COMMENT
                 
+                elif c in LOGICAL_OP_LIST:
+                    buffer.append(c)
+                    self.state = LOGICAL_OP
+                        
+
+                # ===================END OF STATE 0 ====================
+                
             elif self.state == DIGIT:
                 if c.isnumeric():
                     buffer.append(c)
@@ -108,7 +117,7 @@ class LexScanner:
 
             elif self.state == OPERATOR:
                 return my_token.Token(buffer, OPERATOR)
-                
+
             elif self.state == COMMENT:
                 if c == '*':
                     self.pos += 1 # Avança uma posição para verificar se há é comentário
@@ -119,6 +128,16 @@ class LexScanner:
                         self.pos -= 1 # Volta para a posição inicial se não for
                 elif c == '}':
                     return my_token.Token('', COMMENT)
+
+            elif self.state == LOGICAL_OP:
+                if c in LOGICAL_OP_LIST:
+                    buffer.append(c)
+                else:
+                    self.state = NOT_LOGICAL_OP
+            
+            elif self.state == NOT_LOGICAL_OP:
+                self.pos -= 1
+                return my_token.Token(''.join(buffer), LOGICAL_OP)
 
             self.pos += 1
 
