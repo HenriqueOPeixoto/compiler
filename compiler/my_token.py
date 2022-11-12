@@ -31,6 +31,8 @@ class TokenType(IntEnum):
     IDENT = 10
     LOGICAL_OP = 11
     NOT_LOGICAL_OP = 12
-    ATRIB = 13
+    ATRIB = 13 # :=
     NOT_ATRIB = 14
     SEPARATOR = 15
+    OPEN_PAR = 16 # (
+    CLOSE_PAR = 17 # )
