@@ -216,6 +216,6 @@ class LexScanner:
                 if self.state != my_token.TokenType.OPERATOR:
                     self.state -= 1
                 
-                return my_token.Token(''.join(buffer), self.state) # Sai do estado NOT_X e vai para o X.
+                return my_token.Token(''.join(buffer), my_token.TokenType(self.state)) # Sai do estado NOT_X e vai para o X.
 
 
