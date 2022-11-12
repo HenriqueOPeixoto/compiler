@@ -8,6 +8,8 @@ def parse_cmd_args():
     parser.add_argument('file', help='The path to the file you wish to compile.')
     parser.add_argument('-t', '--tokens', help="Toggles token printing for debugging",
                         action='store_true')
+    parser.add_argument('-c', '--count', help='Prints identified tokens amount (ignores whitespace and newline tokens)',
+                        action='store_true')
     args = parser.parse_args()
     return args
 
@@ -21,6 +23,13 @@ def print_tokens(tokens):
         elif token.type != 3:
             print(token.to_string(), end=' ')
     print()
+
+def print_token_amount(tokens):
+    token_amount = 0
+    for token in tokens:
+        if token.type != 3 and token.type != 5:
+            token_amount += 1
+    print('Number of identified tokens:', token_amount)
 
 args = parse_cmd_args()
 
@@ -44,6 +53,9 @@ try:
 
     if args.tokens:
         print_tokens(tokens)
+
+    if args.count:
+        print_token_amount(tokens)
 
 except FileNotFoundError:
     print('Não foi possível encontrar o arquivo especificado.')
