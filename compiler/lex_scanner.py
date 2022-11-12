@@ -86,6 +86,14 @@ class LexScanner:
                 elif c in SEPARATOR_LIST:
                     buffer.append(c)
                     self.state = my_token.TokenType.SEPARATOR
+                
+                elif c == '(':
+                    buffer.append(c)
+                    self.state = my_token.TokenType.OPEN_PAR
+                
+                elif c == ')':
+                    buffer.append(c)
+                    self.state = my_token.TokenType.CLOSE_PAR
                         
 
                 # ===================END OF STATE 0 ====================
@@ -183,6 +191,16 @@ class LexScanner:
 
             elif self.state == my_token.TokenType.SEPARATOR:
                 return my_token.Token(''.join(buffer), my_token.TokenType.SEPARATOR)
+
+            # =================== OPEN_PAR ====================
+
+            elif self.state == my_token.TokenType.OPEN_PAR:
+                return my_token.Token(''.join(buffer), my_token.TokenType.OPEN_PAR)
+
+            # =================== CLOSE_PAR ====================
+
+            elif self.state == my_token.TokenType.CLOSE_PAR:
+                return my_token.Token(''.join(buffer), my_token.TokenType.CLOSE_PAR)
 
 
             self.pos += 1
