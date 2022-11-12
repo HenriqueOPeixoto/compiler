@@ -16,6 +16,7 @@ LOGICAL_OP = 11
 NOT_LOGICAL_OP = 12
 ATRIB = 13
 NOT_ATRIB = 14
+SEPARATOR = 15
 
 OPERATOR_LIST = ['+', '-', '*', '/']
 COMMENT_LIST = ['{']
@@ -34,6 +35,7 @@ KEYWORD_LIST = [
     'do'
 ]
 LOGICAL_OP_LIST = ['<', '>', '<>', '>=', '<=', '=']
+SEPARATOR_LIST = [',', ';', '$', '.']
 
 class LexScanner:
 
@@ -98,6 +100,10 @@ class LexScanner:
                 elif c == ':':
                     buffer.append(c)
                     self.state = ATRIB
+                
+                elif c in SEPARATOR_LIST:
+                    buffer.append(c)
+                    self.state = SEPARATOR
                         
 
                 # ===================END OF STATE 0 ====================
@@ -190,6 +196,12 @@ class LexScanner:
                     return my_token.Token(buffer, ATRIB)
                 else:
                     raise Exception('Erro: Esperava um token de atribuição.')
+
+            # =================== SEPARATOR ====================
+
+            elif self.state == SEPARATOR:
+                return my_token.Token(''.join(buffer), SEPARATOR)
+
 
             self.pos += 1
 
