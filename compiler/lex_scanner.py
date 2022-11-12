@@ -1,23 +1,5 @@
 import my_token
 
-COMMENT = -2
-EOF = -1
-DIGIT = 1
-NOT_DIGIT = 2
-SPACE = 3
-NOT_SPACE = 4
-NEWLINE_TOKEN = 5
-OPERATOR = 6
-TXT_LITERAL = 7
-NOT_TXT_LITERAL = 8
-KEYWORD = 9
-IDENT = 10
-LOGICAL_OP = 11
-NOT_LOGICAL_OP = 12
-ATRIB = 13
-NOT_ATRIB = 14
-SEPARATOR = 15
-
 OPERATOR_LIST = ['+', '-', '*', '/']
 COMMENT_LIST = ['{']
 KEYWORD_LIST = [
@@ -56,10 +38,10 @@ class LexScanner:
         buffer = []
 
         if self.pos == len(self.content):
-            return my_token.Token('$', EOF)
+            return my_token.Token('$', my_token.TokenType.EOF)
         
         if self.is_end(self.content[self.pos]):
-            return my_token.Token('$', EOF)
+            return my_token.Token('$', my_token.TokenType.EOF)
 
         self.state = 0
         
@@ -69,144 +51,144 @@ class LexScanner:
             if self.state == 0:
                 if c.isnumeric():
                     buffer.append(c)
-                    self.state = DIGIT
+                    self.state = my_token.TokenType.DIGIT
 
                 elif c in [' ', '\n']:
                     buffer.append(c)
-                    self.state = SPACE
+                    self.state = my_token.TokenType.SPACE
 
                 elif c in OPERATOR_LIST:
                     if c == '/':
                         self.pos += 1 # Avança uma pos para verificar se é comentário
                         if self.content[self.pos] == '*':
-                            self.state = COMMENT
+                            self.state = my_token.TokenType.COMMENT
                             continue
                         else:
                             self.pos -= 1 # Volta para a posição inicial se não for
                     buffer.append(c)
-                    self.state = OPERATOR
+                    self.state = my_token.TokenType.OPERATOR
 
                 elif c in COMMENT_LIST:
-                    self.state = COMMENT
+                    self.state = my_token.TokenType.COMMENT
                 
                 elif c in LOGICAL_OP_LIST:
                     buffer.append(c)
-                    self.state = LOGICAL_OP
+                    self.state = my_token.TokenType.LOGICAL_OP
                 
                 elif c.isalpha():
                     buffer.append(c)
-                    self.state = TXT_LITERAL
+                    self.state = my_token.TokenType.TXT_LITERAL
                 
                 elif c == ':':
                     buffer.append(c)
-                    self.state = ATRIB
+                    self.state = my_token.TokenType.ATRIB
                 
                 elif c in SEPARATOR_LIST:
                     buffer.append(c)
-                    self.state = SEPARATOR
+                    self.state = my_token.TokenType.SEPARATOR
                         
 
                 # ===================END OF STATE 0 ====================
                 
                 # =================== DIGIT ====================
-            elif self.state == DIGIT:
+            elif self.state == my_token.TokenType.DIGIT:
                 if c.isnumeric():
                     buffer.append(c)
                 else:
-                    self.state = NOT_DIGIT
+                    self.state = my_token.TokenType.NOT_DIGIT
 
-            elif self.state == NOT_DIGIT:
+            elif self.state == my_token.TokenType.NOT_DIGIT:
                 self.pos -= 1
-                return my_token.Token(int("".join(buffer)), DIGIT)
+                return my_token.Token(int("".join(buffer)), my_token.TokenType.DIGIT)
             
             # =================== SPACE ====================
 
-            elif self.state == SPACE:
+            elif self.state == my_token.TokenType.SPACE:
                 if c in [' ', '\n']:
                     buffer.append(c)
-                    self.state = SPACE
+                    self.state = my_token.TokenType.SPACE
                 else:
-                    self.state = NOT_SPACE
+                    self.state = my_token.TokenType.NOT_SPACE
 
-            elif self.state == NOT_SPACE:
+            elif self.state == my_token.TokenType.NOT_SPACE:
                 self.pos -= 1
                 if '\n' in buffer:
-                    return my_token.Token(buffer, NEWLINE_TOKEN)
+                    return my_token.Token(buffer, my_token.TokenType.NEWLINE_TOKEN)
                 else:
-                    return my_token.Token(buffer, SPACE)
+                    return my_token.Token(buffer, my_token.TokenType.SPACE)
 
             # =================== OPERATOR ====================
 
-            elif self.state == OPERATOR:
-                return my_token.Token(''.join(buffer), OPERATOR)
+            elif self.state == my_token.TokenType.OPERATOR:
+                return my_token.Token(''.join(buffer), my_token.TokenType.OPERATOR)
             
             # =================== COMMENT ====================
 
-            elif self.state == COMMENT:
+            elif self.state == my_token.TokenType.COMMENT:
                 if c == '*':
                     self.pos += 1 # Avança uma posição para verificar se há é comentário
                     if self.content[self.pos] == '/':
                         self.pos += 1
-                        return my_token.Token('', COMMENT)
+                        return my_token.Token('', my_token.TokenType.COMMENT)
                     else:
                         self.pos -= 1 # Volta para a posição inicial se não for
                 elif c == '}':
-                    return my_token.Token('', COMMENT)
+                    return my_token.Token('', my_token.TokenType.COMMENT)
 
             # =================== LOGICAL OP ====================
 
-            elif self.state == LOGICAL_OP:
+            elif self.state == my_token.TokenType.LOGICAL_OP:
                 if c in LOGICAL_OP_LIST:
                     buffer.append(c)
                 else:
-                    self.state = NOT_LOGICAL_OP
+                    self.state = my_token.TokenType.NOT_LOGICAL_OP
             
-            elif self.state == NOT_LOGICAL_OP:
+            elif self.state == my_token.TokenType.NOT_LOGICAL_OP:
                 self.pos -= 1
-                return my_token.Token(''.join(buffer), LOGICAL_OP)
+                return my_token.Token(''.join(buffer), my_token.TokenType.LOGICAL_OP)
 
             # =================== TXT LITERAL OR IDENT ====================
             
-            elif self.state == TXT_LITERAL:
+            elif self.state == my_token.TokenType.TXT_LITERAL:
                 if c.isalnum():
                     buffer.append(c)
                 else:
-                    self.state = NOT_TXT_LITERAL
+                    self.state = my_token.TokenType.NOT_TXT_LITERAL
             
-            elif self.state == NOT_TXT_LITERAL:
+            elif self.state == my_token.TokenType.NOT_TXT_LITERAL:
                 self.pos -= 1
                 buffer = ''.join(buffer)
                 if buffer in KEYWORD_LIST:
-                    return my_token.Token(buffer, KEYWORD)
+                    return my_token.Token(buffer, my_token.TokenType.KEYWORD)
                 else:
-                    return my_token.Token(buffer, IDENT)
+                    return my_token.Token(buffer, my_token.TokenType.IDENT)
 
             # =================== ATRIB ====================
 
-            elif self.state == ATRIB:
+            elif self.state == my_token.TokenType.ATRIB:
                 if c == '=':
                     buffer.append(c)
                 else:
-                    self.state = NOT_ATRIB
+                    self.state = my_token.TokenType.NOT_ATRIB
             
-            elif self.state == NOT_ATRIB:
+            elif self.state == my_token.TokenType.NOT_ATRIB:
                 self.pos -= 1
                 buffer = ''.join(buffer)
                 if buffer in [':', ':=']:
-                    return my_token.Token(buffer, ATRIB)
+                    return my_token.Token(buffer, my_token.TokenType.ATRIB)
                 else:
                     raise Exception('Erro: Esperava um token de atribuição.')
 
             # =================== SEPARATOR ====================
 
-            elif self.state == SEPARATOR:
-                return my_token.Token(''.join(buffer), SEPARATOR)
+            elif self.state == my_token.TokenType.SEPARATOR:
+                return my_token.Token(''.join(buffer), my_token.TokenType.SEPARATOR)
 
 
             self.pos += 1
 
             if self.is_end(c):
-                if self.state != OPERATOR:
+                if self.state != my_token.TokenType.OPERATOR:
                     self.state -= 1
                 
                 return my_token.Token(''.join(buffer), self.state) # Sai do estado NOT_X e vai para o X.
