@@ -94,6 +94,12 @@ class LexScanner:
                 elif c == ')':
                     buffer.append(c)
                     self.state = my_token.TokenType.CLOSE_PAR
+                
+                elif c == '\t': # ignore tabulation chars
+                    pass
+                
+                else:
+                    raise Exception('Erro: Token não reconhecido')
                         
 
                 # ===================END OF STATE 0 ====================
@@ -141,6 +147,7 @@ class LexScanner:
                     else:
                         self.pos -= 1 # Volta para a posição inicial se não for
                 elif c == '}':
+                    self.pos += 1
                     return my_token.Token('', my_token.TokenType.COMMENT)
 
             # =================== LOGICAL OP ====================
