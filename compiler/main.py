@@ -20,6 +20,7 @@ def print_tokens(tokens):
             print('\n{:5d} | '.format(line_number), end=' ')
         elif token.type != 3:
             print(token.to_string(), end=' ')
+    print()
 
 args = parse_cmd_args()
 
