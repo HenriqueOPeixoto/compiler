@@ -132,7 +132,7 @@ class LexScanner:
             # =================== OPERATOR ====================
 
             elif self.state == OPERATOR:
-                return my_token.Token(buffer, OPERATOR)
+                return my_token.Token(''.join(buffer), OPERATOR)
             
             # =================== COMMENT ====================
 
