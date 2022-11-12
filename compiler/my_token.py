@@ -6,7 +6,12 @@ class Token:
         self.value = value
         self.type = type
 
+    # Prints token type full name
     def to_string(self) -> str:
+        return '[{}: {}]'.format(self.value, self.type.name)
+    
+    # Only prints token type codes
+    def to_string_brief(self) -> str:
         return '[{}: {}]'.format(self.value, self.type)
 
 # This class contains token type enumerations..
