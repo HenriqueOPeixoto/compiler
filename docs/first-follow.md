@@ -89,3 +89,36 @@
 
 
 ## Follow
+
+    Follow(<programa>) = {$}
+    
+    Follow(<corpo>) = {.}
+    Follow(<dc>) = {begin}
+    Follow(<mais_dc>) = {begin}
+    Follow(<dc_v>) = {} U First(<mais_dc>) = {;, λ}
+    Follow(<tipo_var>) = {:}
+
+
+    Follow(<variaveis>) = {} U Follow(<dc_v>) = {;, λ}
+    Follow(<mais_var>) =  {} U Follow(<variaveis>) = {;, λ}
+    
+    Follow(<comandos>) = {end, $} U First(<pfalsa>) = {end, $, else, λ}
+    Follow(<mais_comandos>) = {} U Follow(<comandos>) = {end, $, else, λ}
+    Follow(<comando>) = {} U First(<mais_comandos>) = {;, λ}
+
+    Follow(<relacao>) = {=, <, >} ////////////////////////
+    
+    Follow(<condicao>) = {then, do}
+    Follow(<expressao>) = { ) } U First(<relacao>) = {), =, <, >, ////////////////////////////}
+    Follow(<termo>) = {} U First(<outros_termos>) = {λ, +, -}
+    Follow(<op_un>) = {} U First(<fator>) = {ident, numero_int, numero_real, ( }
+
+    Follow(<fator>) = {} U First(<mais_fatores>) = {λ, *, /}
+    
+    Follow(<outros_termos>) = {} U Follow(<expressao>) = {), =, <, >}
+    Follow(<op_ad>) = {} U First(<termo>) = {-, ident, numero_int, numero_real, ( }
+    
+    Follow(<mais_fatores>) = {λ} U First(<op_mul>) = {λ, *, /} //////////////PAREI AQUI
+    Follow(<op_mul>) = {*, /}
+
+    Follow(<pfalsa>) = {else, λ}
