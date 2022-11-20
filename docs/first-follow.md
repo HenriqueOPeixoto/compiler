@@ -56,7 +56,7 @@
 
     First(<programa>) = {program}
     
-    First(<corpo>) = {} U First(<dc>) = {λ, real, integer}
+    First(<corpo>) = {} U First(<dc>) = {real, integer, begin} # Pode ser begin, pois <dc> pode ser λ
     First(<dc>) = {λ} U First(<dc_v>) = {λ, real, integer}
     First(<mais_dc>) = {;, λ}
     First(<dc_v>) = {} U First(<tipo_var>) = {real, integer}
@@ -66,15 +66,15 @@
     First(<variaveis>) = {ident}
     First(<mais_var>) =  {,} U {λ}
     
-    First(<comandos>) = {} U First(<comando>) = {read, write, ident, if, while} /////////////////////////////////
+    First(<comandos>) = {} U First(<comando>) = {read, write, ident, if, while}
     First(<mais_comandos>) = {;, λ}
     First(<comando>) = {read, write, ident, if, while}
 
     First(<relacao>) = {=, <, >} ////////////////////////
     
-    First(<condicao>) = {} U First(<expressao>) = {-, λ}
-    First(<expressao>) = {} U First(<termo>) = {-, λ}
-    First(<termo>) = {} U First(<op_un>) = {-, λ}
+    First(<condicao>) = {} U First(<expressao>) = {-, ident, numero_int, numero_real, ( }
+    First(<expressao>) = {} U First(<termo>) = {-, ident, numero_int, numero_real, ( }
+    First(<termo>) = {} U First(<op_un>) = {-} U First(<fator>) = {-, ident, numero_int, numero_real, ( }
     First(<op_un>) = {-, λ}
 
     First(<fator>) = {ident, numero_int, numero_real, ( }
@@ -86,7 +86,6 @@
     First(<op_mul>) = {*, /}
 
     First(<pfalsa>) = {else, λ}
-
 
 
 ## Follow
