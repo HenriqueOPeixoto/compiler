@@ -71,10 +71,13 @@
     First(<comando>) = {read, write, ident, if, while}
 
     First(<relacao>) = {=, <>, >=, <=, >, <}
+
+
+    // SE NO FUTURO DER ALGUM PROBLEMA, O LAMBDA DESSAS TRES LINHAS PODE SER A CAUSA
+    First(<condicao>) = {} U First(<expressao>) = {-, λ, ident, numero_int, numero_real, ( }
+    First(<expressao>) = {} U First(<termo>) = {-, λ, ident, numero_int, numero_real, ( }
+    First(<termo>) = {} U First(<op_un>) = {-, λ} U First(<fator>) = {-, λ, ident, numero_int, numero_real, ( } 
     
-    First(<condicao>) = {} U First(<expressao>) = {-, ident, numero_int, numero_real, ( }
-    First(<expressao>) = {} U First(<termo>) = {-, ident, numero_int, numero_real, ( }
-    First(<termo>) = {} U First(<op_un>) = {-, λ} U First(<fator>) = {-, λ, ident, numero_int, numero_real, ( }
     First(<op_un>) = {-, λ}
 
     First(<fator>) = {ident, numero_int, numero_real, ( }
