@@ -72,8 +72,6 @@
 
     First(<relacao>) = {=, <>, >=, <=, >, <}
 
-
-    // SE NO FUTURO DER ALGUM PROBLEMA, O LAMBDA DESSAS TRES LINHAS PODE SER A CAUSA
     First(<condicao>) = {} U First(<expressao>) = {-, ident, numero_int, numero_real, ( }
     First(<expressao>) = {} U First(<termo>) = {-, ident, numero_int, numero_real, ( }
     First(<termo>) = {} U First(<op_un>) = {-, First(<fator>)} = {-, ident, numero_int, numero_real, ( } 
@@ -112,7 +110,7 @@ Usei o símbolo @ para identificar o fim de cadeia.
     Follow(<mais_comandos>) = {} U Follow(<comandos>) = {end, $, else}
     Follow(<comando>) = {} U First(<mais_comandos>) = {;, end, $, else}
 
-    Follow(<relacao>) = {} U First(<expressao>) =
+    Follow(<relacao>) = {} U First(<expressao>) = {-, ident, numero_int, numero_real, ( }
     
     Follow(<condicao>) = {then, do}
     Follow(<expressao>) = { ) } U First(<relacao>) U Follow(<condicao>) = { ), =, <>, >=, <=, >, <, then, do}
