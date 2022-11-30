@@ -70,11 +70,11 @@
     First(<mais_comandos>) = {;, λ}
     First(<comando>) = {read, write, ident, if, while}
 
-    First(<relacao>) = {=, <, >} ////////////////////////
+    First(<relacao>) = {=, <>, >=, <=, >, <}
     
     First(<condicao>) = {} U First(<expressao>) = {-, ident, numero_int, numero_real, ( }
     First(<expressao>) = {} U First(<termo>) = {-, ident, numero_int, numero_real, ( }
-    First(<termo>) = {} U First(<op_un>) = {-} U First(<fator>) = {-, ident, numero_int, numero_real, ( }
+    First(<termo>) = {} U First(<op_un>) = {-, λ} U First(<fator>) = {-, λ, ident, numero_int, numero_real, ( }
     First(<op_un>) = {-, λ}
 
     First(<fator>) = {ident, numero_int, numero_real, ( }
@@ -90,35 +90,39 @@
 
 ## Follow
 
-    Follow(<programa>) = {$}
+Usei o símbolo @ para identificar o fim de cadeia.
+
+    Follow(<programa>) = {@}
     
     Follow(<corpo>) = {.}
     Follow(<dc>) = {begin}
     Follow(<mais_dc>) = {begin}
-    Follow(<dc_v>) = {} U First(<mais_dc>) = {;, λ}
+    Follow(<dc_v>) = {} U First(<mais_dc>) = {;, begin}, onde o lambda vira begin pois o follow não pode ter vazio, daí pega o follow de <mais_dc> também
     Follow(<tipo_var>) = {:}
 
 
-    Follow(<variaveis>) = {} U Follow(<dc_v>) = {;, λ}
-    Follow(<mais_var>) =  {} U Follow(<variaveis>) = {;, λ}
+    Follow(<variaveis>) = {} U Follow(<dc_v>) = {;, begin}
     
-    Follow(<comandos>) = {end, $} U First(<pfalsa>) = {end, $, else, λ}
-    Follow(<mais_comandos>) = {} U Follow(<comandos>) = {end, $, else, λ}
-    Follow(<comando>) = {} U First(<mais_comandos>) = {;, λ}
+    Follow(<mais_var>) =  {} U Follow(<variaveis>) = {;, begin}
+    
+    Follow(<comandos>) = {end, $} U First(<pfalsa>) = {end, $, else}
+    Follow(<mais_comandos>) = {} U Follow(<comandos>) = {end, $, else}
+    Follow(<comando>) = {} U First(<mais_comandos>) = {;, end, $, else}
 
-    Follow(<relacao>) = {=, <, >} ////////////////////////
+    Follow(<relacao>) = {} U First(<expressao>) =
     
     Follow(<condicao>) = {then, do}
-    Follow(<expressao>) = { ) } U First(<relacao>) = {), =, <, >, ////////////////////////////}
-    Follow(<termo>) = {} U First(<outros_termos>) = {λ, +, -}
+    Follow(<expressao>) = { ) } U First(<relacao>) U Follow(<condicao>) = { ), =, <>, >=, <=, >, <, then, do}
+    Follow(<termo>) = {} U First(<outros_termos>) = {+, -, Follow(<expressao>)} = {+, -, ), =, <>, >=, <=, >, <, then, do}
     Follow(<op_un>) = {} U First(<fator>) = {ident, numero_int, numero_real, ( }
 
-    Follow(<fator>) = {} U First(<mais_fatores>) = {λ, *, /}
+    Follow(<fator>) = {} U First(<mais_fatores>) = {*, /, Follow(<termo>)} = {*, /, +, -, ), =, <>, >=, <=, >, <, then, do}
     
-    Follow(<outros_termos>) = {} U Follow(<expressao>) = {), =, <, >}
-    Follow(<op_ad>) = {} U First(<termo>) = {-, ident, numero_int, numero_real, ( }
+    Follow(<outros_termos>) = {} U Follow(<expressao>) = { ), =, <>, >=, <=, >, <, then, do}
+    Follow(<op_ad>) = {} U First(<termo>) = {-, Follow(<termo>), ident, numero_int, numero_real, ( } = {-, +, -, ), =, <>, >=, <=, >, <, then, do, ident, numero_int, numero_real, ( }
     
-    Follow(<mais_fatores>) = {λ} U First(<op_mul>) = {λ, *, /} //////////////PAREI AQUI
-    Follow(<op_mul>) = {*, /}
+    Follow(<mais_fatores>) = {} U Follow(<termo>) = {+, -, ), =, <>, >=, <=, >, <, then, do}
+    
+    Follow(<op_mul>) = {} U First(<fator>) = {ident, numero_int, numero_real, ( }
 
-    Follow(<pfalsa>) = {else, λ}
+    Follow(<pfalsa>) = {$}
