@@ -74,9 +74,9 @@
 
 
     // SE NO FUTURO DER ALGUM PROBLEMA, O LAMBDA DESSAS TRES LINHAS PODE SER A CAUSA
-    First(<condicao>) = {} U First(<expressao>) = {-, λ, ident, numero_int, numero_real, ( }
-    First(<expressao>) = {} U First(<termo>) = {-, λ, ident, numero_int, numero_real, ( }
-    First(<termo>) = {} U First(<op_un>) = {-, λ} U First(<fator>) = {-, λ, ident, numero_int, numero_real, ( } 
+    First(<condicao>) = {} U First(<expressao>) = {-, ident, numero_int, numero_real, ( }
+    First(<expressao>) = {} U First(<termo>) = {-, ident, numero_int, numero_real, ( }
+    First(<termo>) = {} U First(<op_un>) = {-, First(<fator>)} = {-, ident, numero_int, numero_real, ( } 
     
     First(<op_un>) = {-, λ}
 
@@ -122,7 +122,7 @@ Usei o símbolo @ para identificar o fim de cadeia.
     Follow(<fator>) = {} U First(<mais_fatores>) = {*, /, Follow(<termo>)} = {*, /, +, -, ), =, <>, >=, <=, >, <, then, do}
     
     Follow(<outros_termos>) = {} U Follow(<expressao>) = { ), =, <>, >=, <=, >, <, then, do}
-    Follow(<op_ad>) = {} U First(<termo>) = {-, Follow(<termo>), ident, numero_int, numero_real, ( } = {-, +, -, ), =, <>, >=, <=, >, <, then, do, ident, numero_int, numero_real, ( }
+    Follow(<op_ad>) = {} U First(<termo>) = {-, ident, numero_int, numero_real, ( }
     
     Follow(<mais_fatores>) = {} U Follow(<termo>) = {+, -, ), =, <>, >=, <=, >, <, then, do}
     
