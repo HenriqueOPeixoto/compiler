@@ -113,13 +113,13 @@ Usei o símbolo @ para identificar o fim de cadeia.
     Follow(<relacao>) = {} U First(<expressao>) = {-, ident, numero_int, numero_real, ( }
     
     Follow(<condicao>) = {then, do}
-    Follow(<expressao>) = { ) } U First(<relacao>) U Follow(<condicao>) = { ), =, <>, >=, <=, >, <, then, do}
+    Follow(<expressao>) = { ) } U First(<relacao>) U Follow(<condicao>) = { ), =, <>, >=, <=, >, <, then, do} U Follow(<comando>) = { ), =, <>, >=, <=, >, <, then, do, ;, end, $, else}
     Follow(<termo>) = {} U First(<outros_termos>) = {+, -, Follow(<expressao>)} = {+, -, ), =, <>, >=, <=, >, <, then, do}
     Follow(<op_un>) = {} U First(<fator>) = {ident, numero_int, numero_real, ( }
 
     Follow(<fator>) = {} U First(<mais_fatores>) = {*, /, Follow(<termo>)} = {*, /, +, -, ), =, <>, >=, <=, >, <, then, do}
     
-    Follow(<outros_termos>) = {} U Follow(<expressao>) = { ), =, <>, >=, <=, >, <, then, do}
+    Follow(<outros_termos>) = {} U Follow(<expressao>) = { ), =, <>, >=, <=, >, <, then, do, ;, end, $, else}
     Follow(<op_ad>) = {} U First(<termo>) = {-, ident, numero_int, numero_real, ( }
     
     Follow(<mais_fatores>) = {} U Follow(<termo>) = {+, -, ), =, <>, >=, <=, >, <, then, do} U Follow(<comando>) = {+, -, ), =, <>, >=, <=, >, <, then, do, ;, end, $, else}
