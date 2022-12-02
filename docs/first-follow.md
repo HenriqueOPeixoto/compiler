@@ -122,7 +122,7 @@ Usei o símbolo @ para identificar o fim de cadeia.
     Follow(<outros_termos>) = {} U Follow(<expressao>) = { ), =, <>, >=, <=, >, <, then, do}
     Follow(<op_ad>) = {} U First(<termo>) = {-, ident, numero_int, numero_real, ( }
     
-    Follow(<mais_fatores>) = {} U Follow(<termo>) = {+, -, ), =, <>, >=, <=, >, <, then, do}
+    Follow(<mais_fatores>) = {} U Follow(<termo>) = {+, -, ), =, <>, >=, <=, >, <, then, do} U Follow(<comando>) = {+, -, ), =, <>, >=, <=, >, <, then, do, ;, end, $, else}
     
     Follow(<op_mul>) = {} U First(<fator>) = {ident, numero_int, numero_real, ( }
 
