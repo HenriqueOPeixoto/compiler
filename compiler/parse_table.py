@@ -18,13 +18,13 @@ parse_table = [
 ['','','','','','','','','','ident := <expressao>','','read (ident)','write (ident)','','','if <condicao> do <comandos> <pfalsa> $','','','while <condicao> do <comandos>$','','','','','','','','','','','','','',''],
 ['','','','','','','','','','<expressao> <relacao> <expressao>','','','','<expressao> <relacao> <expressao>','','','','','','','','','','','','','<expressao> <relacao> <expressao>','<expressao> <relacao> <expressao>','<expressao> <relacao> <expressao>','','','',''],
 ['','','','','','','','','','','','','','','','','','','','','=','<>','>=','<=','>','<','','','','','','',''],
-['','',,,,,,,,<expressao> -> <termo> <outros_termos>,,,,<expressao> -> <termo> <outros_termos>,,,,,,,,,,,,,<expressao> -> <termo> <outros_termos>,<expressao> -> <termo> <outros_termos>,<expressao> -> <termo> <outros_termos>,,,,]
-,,,,,,,,,<termo> -> <op_un> <fator> <mais_fatores>,,,,<termo> -> <op_un> <fator> <mais_fatores>,,,,,,,,,,,,,<termo> -> <op_un> <fator> <mais_fatores>,<termo> -> <op_un> <fator> <mais_fatores>,<termo> -> <op_un> <fator> <mais_fatores>,,,,
-,,,,,,,,,<op_un> -> λ,,,,<op_un> -> λ,,,,,,,,,,,,,<op_un> -> -,<op_un> -> λ,<op_un> -> λ,,,,
-,,,,,,,,,<fator> -> ident,,,,<fator> -> (<expressao>),,,,,,,,,,,,,,<fator> -> numero_int,<fator> -> numero_real,,,,
-,,,<outros_termos> -> λ,,<outros_termos> -> λ,,,,,,,,,<outros_termos> -> λ,,<outros_termos> -> λ,<outros_termos> -> λ,,<outros_termos> -> λ,<outros_termos> -> λ,<outros_termos> -> λ,<outros_termos> -> λ,<outros_termos> -> λ,<outros_termos> -> λ,<outros_termos> -> λ,<outros_termos> -> <op_ad> <termo> <outros_termos> ,,,<outros_termos> -> <op_ad> <termo> <outros_termos> ,,,<outros_termos> -> λ
-,,,,,,,,,,,,,,,,,,,,,,,,,,<op_ad> -> -,,,<op_ad> -> +,,,
-,,,<mais_fatores> -> λ,,<mais_fatores> -> λ,,,,,,,,,<mais_fatores> -> λ,,<mais_fatores> -> λ,<mais_fatores> -> λ,,<mais_fatores> -> λ,<mais_fatores> -> λ,<mais_fatores> -> λ,<mais_fatores> -> λ,<mais_fatores> -> λ,<mais_fatores> -> λ,<mais_fatores> -> λ,<mais_fatores> -> λ,,,<mais_fatores> -> λ,<mais_fatores> -> <op_mul> <fator> <mais_fatores>,<mais_fatores> -> <op_mul> <fator> <mais_fatores>,<mais_fatores> -> λ
-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,<op_mul> -> *,<op_mul> -> /,
-,,,,,,,,,,,,,,,,,<pfalsa> -> λ,,,,,,,,,,,,,,,<pfalsa> -> else <comandos>
+['','','','','','','','','','<termo> <outros_termos>','','','','<termo> <outros_termos>','','','','','','','','','','','','','<termo> <outros_termos>','<termo> <outros_termos>','<expressao> -> <termo> <outros_termos>','','','',''],
+['','','','','','','','','','<op_un> <fator> <mais_fatores>','','','','<op_un> <fator> <mais_fatores>','','','','','','','','','','','','','<op_un> <fator> <mais_fatores>','<op_un> <fator> <mais_fatores>','<op_un> <fator> <mais_fatores>','','','',''],
+['','','','','','','','','','λ','','','','λ','','','','','','','','','','','','','-','λ','λ','','','',''],
+['','','','','','','','','','ident','','','','(<expressao>)','','','','','','','','','','','','','','numero_int','numero_real','','','',''],
+['','','','λ','','λ','','','','','','','','','λ','','λ','λ','','λ','λ','λ','λ','λ','λ','λ','<op_ad> <termo> <outros_termos>','','','<op_ad> <termo> <outros_termos>','','','λ'],
+['','','','','','','','','','','','','','','','','','','','','','','','','','','-','','','+','','',''],
+['','','','λ','','λ','','','','','','','','','λ','','λ','λ','','λ','λ','λ','λ','λ','λ','λ','λ','','','λ','<op_mul> <fator> <mais_fatores>','<op_mul> <fator> <mais_fatores>','λ'],
+['','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','*','/',''],
+['','','','','','','','','','','','','','','','','','λ','','','','','','','','','','','','','','','else <comandos>']
 ]
