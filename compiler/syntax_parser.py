@@ -9,6 +9,7 @@ class Parser:
         accepted = False
         stack = ['<programa>', '@']
         stack.reverse()
+        tokens.reverse() # makes tokens look like a stack
 
         while stack[0] != '@' or accepted == False:
 
