@@ -22,6 +22,9 @@ class Parser:
                         derivation = parse_table[PROGRAMA][T_PROGRAM].split(' ')
                         derivation.reverse()
                         stack.extend(derivation)
+                    elif stack[-1] == 'program':
+                        stack.pop()
+                        tokens.pop()
                     else:
                         raise Exception('Era esperado o seguinte token: program')
                         
