@@ -4,40 +4,47 @@ from parse_table import *
 
 class Parser:
 
-    def parse_syntax(self, tokens: list[my_token.Token]):
+    def __init__(self, tokens: list[my_token.Token]) -> None:
+        self.tokens = tokens
+        self.stack = None
+
+    def derivate(self, rule, terminal):
+        self.stack.pop()
+        derivation = parse_table[rule][terminal].split(' ')
+        derivation.reverse()
+        self.stack.extend(derivation)
+    
+    def match(self):
+        self.stack.pop()
+        self.tokens.pop()
+
+
+    def parse_syntax(self):
 
         accepted = False
-        stack = ['<programa>', '@']
-        stack.reverse()
-        tokens.reverse() # makes tokens look like a stack
+        self.stack = ['<programa>', '@']
+        self.stack.reverse()
+        self.tokens.reverse() # makes tokens look like a stack
 
-        while stack[0] != '@' or accepted == False:
+        while self.stack[0] != '@' or accepted == False:
 
-            token_atual = tokens[-1]
+            token_atual = self.tokens[-1]
 
             if token_atual.type == my_token.TokenType.KEYWORD:
                 if token_atual.value == 'program':
-                    if stack[-1] == '<programa>':
-                        stack.pop()
-                        derivation = parse_table[PROGRAMA][T_PROGRAM].split(' ')
-                        derivation.reverse()
-                        stack.extend(derivation)
-                    elif stack[-1] == 'program':
-                        stack.pop()
-                        tokens.pop()
+                    if self.stack[-1] == '<programa>':
+                        self.derivate(PROGRAMA, T_PROGRAM)
+                    elif self.stack[-1] == 'program':
+                        self.match()
                     else:
                         raise Exception('Era esperado o seguinte token: program')
-                if token_atual.value == 'real':
-                    if stack[-1] == '<corpo>':
-                        stack.pop()
-                        derivation = parse_table[CORPO][T_REAL].split(' ')
-                        derivation.reverse()
-                        stack.extend(derivation)
+                elif token_atual.value == 'real':
+                    if self.stack[-1] == '<corpo>':
+                        self.derivate(CORPO, T_REAL)
             elif token_atual.type == my_token.TokenType.IDENT:
-                stack.pop()
-                tokens.pop()
+                self.match()
             elif (token_atual.type == my_token.TokenType.SPACE or
                 token_atual.type == my_token.TokenType.NEWLINE_TOKEN or
                 token_atual.type == my_token.TokenType.COMMENT):
-                tokens.pop()
+                self.tokens.pop()
                         
