@@ -71,7 +71,7 @@ parse_table = [
 ['','','','','','','','','','ident := <expressao>','','read (ident)','write (ident)','','','if <condicao> do <comandos> <pfalsa> $','','','while <condicao> do <comandos>$','','','','','','','','','','','','','',''],
 ['','','','','','','','','','<expressao> <relacao> <expressao>','','','','<expressao> <relacao> <expressao>','','','','','','','','','','','','','<expressao> <relacao> <expressao>','<expressao> <relacao> <expressao>','<expressao> <relacao> <expressao>','','','',''],
 ['','','','','','','','','','','','','','','','','','','','','=','<>','>=','<=','>','<','','','','','','',''],
-['','','','','','','','','','<termo> <outros_termos>','','','','<termo> <outros_termos>','','','','','','','','','','','','','<termo> <outros_termos>','<termo> <outros_termos>','<expressao> -> <termo> <outros_termos>','','','',''],
+['','','','','','','','','','<termo> <outros_termos>','','','','<termo> <outros_termos>','','','','','','','','','','','','','<termo> <outros_termos>','<termo> <outros_termos>','<termo> <outros_termos>','','','',''],
 ['','','','','','','','','','<op_un> <fator> <mais_fatores>','','','','<op_un> <fator> <mais_fatores>','','','','','','','','','','','','','<op_un> <fator> <mais_fatores>','<op_un> <fator> <mais_fatores>','<op_un> <fator> <mais_fatores>','','','',''],
 ['','','','','','','','','','λ','','','','λ','','','','','','','','','','','','','-','λ','λ','','','',''],
 ['','','','','','','','','','ident','','','','(<expressao>)','','','','','','','','','','','','','','numero_int','numero_real','','','',''],
