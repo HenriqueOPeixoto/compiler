@@ -27,6 +27,12 @@ class Parser:
                         tokens.pop()
                     else:
                         raise Exception('Era esperado o seguinte token: program')
+                if token_atual.value == 'real':
+                    if stack[-1] == '<corpo>':
+                        stack.pop()
+                        derivation = parse_table[CORPO][T_REAL].split(' ')
+                        derivation.reverse()
+                        stack.extend(derivation)
             elif token_atual.type == my_token.TokenType.IDENT:
                 stack.pop()
                 tokens.pop()
