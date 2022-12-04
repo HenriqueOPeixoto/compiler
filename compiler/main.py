@@ -59,8 +59,8 @@ try:
     if args.count:
         print_token_amount(tokens)
     
-    parser = syntax_parser.Parser()
-    parser.parse_syntax(tokens)
+    parser = syntax_parser.Parser(tokens)
+    parser.parse_syntax()
 
 except FileNotFoundError:
     print('Não foi possível encontrar o arquivo especificado.')
