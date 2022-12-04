@@ -2,7 +2,7 @@
 import argparse
 
 import lex_scanner
-import parser
+import syntax_parser
 
 # Parse arguments inserted via command line interface
 def parse_cmd_args():
@@ -59,8 +59,8 @@ try:
     if args.count:
         print_token_amount(tokens)
     
-    syntax_parser = parser.Parser()
-    syntax_parser.parse_syntax(tokens)
+    parser = syntax_parser.Parser()
+    parser.parse_syntax(tokens)
 
 except FileNotFoundError:
     print('Não foi possível encontrar o arquivo especificado.')
