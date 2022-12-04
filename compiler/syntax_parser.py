@@ -27,4 +27,10 @@ class Parser:
                         tokens.pop()
                     else:
                         raise Exception('Era esperado o seguinte token: program')
+            elif token_atual.type == my_token.TokenType.IDENT:
+                stack.pop()
+                tokens.pop()
+            elif (token_atual.type == my_token.TokenType.SPACE or
+                token_atual.type == my_token.TokenType.NEWLINE_TOKEN):
+                tokens.pop()
                         
