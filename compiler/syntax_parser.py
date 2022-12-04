@@ -13,7 +13,7 @@ class Parser:
 
         while stack[0] != '@' or accepted == False:
 
-            token_atual = tokens.pop()
+            token_atual = tokens[-1]
 
             if token_atual.type == my_token.TokenType.KEYWORD:
                 if token_atual.value == 'program':
