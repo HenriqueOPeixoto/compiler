@@ -30,6 +30,7 @@ class Parser:
         while self.stack[0] != '@' or accepted == False:
 
             token_atual = self.tokens[-1]
+            print(token_atual.to_string(), self.stack[-1])
 
             if token_atual.type == my_token.TokenType.KEYWORD:
                 if token_atual.value == 'program':
@@ -205,6 +206,18 @@ class Parser:
                     elif self.stack[-1] == '<mais_fatores>':
                         self.derivate(MAIS_FATORES, T_SEMICOLON)
                     elif self.stack[-1] == ';':
+                        self.match()
+                
+                elif token_atual.value == '$':
+                    if self.stack[-1] == '<mais_comandos>':
+                        self.derivate(MAIS_COMANDOS, T_CLOSE_BLOCK)
+                    elif self.stack[-1] == '<outros_termos>':
+                        self.derivate(OUTROS_TERMOS, T_CLOSE_BLOCK)
+                    elif self.stack[-1] == '<mais_fatores>':
+                        self.derivate(MAIS_FATORES, T_CLOSE_BLOCK)
+                    elif self.stack[-1] == '<pfalsa>':
+                        self.derivate(PFALSA, T_CLOSE_BLOCK)
+                    elif self.stack[-1] == '$':
                         self.match()
 
             elif token_atual.type == my_token.TokenType.OPEN_PAR:
