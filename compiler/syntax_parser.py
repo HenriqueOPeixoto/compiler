@@ -89,6 +89,16 @@ class Parser:
                         self.match()
                     else:
                         raise Exception('Era esperado o seguinte token: real ou integer')
+                
+                elif token_atual.value == 'read':
+                    if self.stack[-1] == '<comandos>':
+                        self.derivate(COMANDOS, T_READ)
+                    elif self.stack[-1] == '<comandos>':
+                        self.derivate(COMANDO, T_READ)
+                    elif self.stack[-1] == 'read':
+                        self.match()
+                    else:
+                        raise Exception('Era esperado um comando')
 
             elif token_atual.type == my_token.TokenType.IDENT:
                 self.match()
