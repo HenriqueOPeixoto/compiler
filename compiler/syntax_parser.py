@@ -1,5 +1,8 @@
 import my_token
 
+# TODO Implement 'real' number derivation
+# TODO Add error handling
+
 from parse_table import *
 
 class Parser:
