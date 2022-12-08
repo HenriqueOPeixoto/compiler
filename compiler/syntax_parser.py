@@ -164,6 +164,6 @@ class Parser:
             
             else:
                 print('stack:', self.stack)
-                print('last token:', token_atual)
+                print('last token:', token_atual.to_string())
                 break
                         
