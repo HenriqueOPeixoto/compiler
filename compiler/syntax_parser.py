@@ -23,11 +23,11 @@ class Parser:
     def parse_syntax(self):
 
         accepted = False
-        self.stack = ['<programa>', '@']
+        self.stack = ['<programa>', '.']
         self.stack.reverse()
         self.tokens.reverse() # makes tokens look like a stack
 
-        while self.stack[0] != '@' or accepted == False:
+        while self.stack[0] != '.' or accepted == False:
 
             token_atual = self.tokens[-1]
             print(token_atual.to_string(), self.stack[-1])
@@ -63,6 +63,8 @@ class Parser:
                         self.derivate(OUTROS_TERMOS, T_END)
                     elif self.stack[-1] == '<mais_fatores>':
                         self.derivate(MAIS_FATORES, T_END)
+                    elif self.stack[-1] == 'end':
+                        self.match()
 
                 elif token_atual.value == 'real':
                     if self.stack[-1] == '<corpo>':
