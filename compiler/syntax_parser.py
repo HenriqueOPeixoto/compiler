@@ -171,7 +171,7 @@ class Parser:
                     self.derivate(OP_UN, T_IDENT)
                 elif self.stack[-1] == '<fator>':
                     self.derivate(FATOR, T_IDENT)
-                else:
+                elif self.stack[-1] == 'ident':
                     self.match()
 
             elif (token_atual.type == my_token.TokenType.SPACE or
@@ -190,7 +190,21 @@ class Parser:
                     if self.stack[-1] == '<mais_var>':
                         self.derivate(MAIS_VAR, T_COMMA)
                     elif self.stack[-1] == ',':
-                        self.match()    
+                        self.match()
+                elif token_atual.value == ';':
+                    if self.stack[-1] == '<mais_dc>':
+                        self.derivate(MAIS_DC, T_SEMICOLON)
+                    elif self.stack[-1] == '<mais_var>':
+                        self.derivate(MAIS_VAR, T_SEMICOLON)
+                    elif self.stack[-1] == '<mais_comandos>':
+                        self.derivate(MAIS_COMANDOS, T_SEMICOLON)
+                    elif self.stack[-1] == '<outros_termos>':
+                        self.derivate(OUTROS_TERMOS, T_SEMICOLON)
+                    elif self.stack[-1] == '<mais_fatores>':
+                        self.derivate(MAIS_FATORES, T_SEMICOLON)
+                    elif self.stack[-1] == ';':
+                        self.match()
+
             
             else:
                 print('stack:', self.stack)
