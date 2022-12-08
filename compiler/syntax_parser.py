@@ -75,6 +75,20 @@ class Parser:
                         self.match()
                     else:
                         raise Exception('Era esperado o seguinte token: real ou integer')
+                    
+                elif token_atual.value == 'integer':
+                    if self.stack[-1] == '<corpo>':
+                        self.derivate(CORPO, T_INTEGER)
+                    elif self.stack[-1] == '<dc>':
+                        self.derivate(DC, T_INTEGER)
+                    elif self.stack[-1] == '<dc_v>':
+                        self.derivate(DC_V, T_INTEGER)
+                    elif self.stack[-1] == '<tipo_var>':
+                        self.derivate(TIPO_VAR, T_INTEGER)
+                    elif self.stack[-1] == 'integer':
+                        self.match()
+                    else:
+                        raise Exception('Era esperado o seguinte token: real ou integer')
 
             elif token_atual.type == my_token.TokenType.IDENT:
                 self.match()
