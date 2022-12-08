@@ -68,7 +68,7 @@ parse_table = [
 ['','','λ','','','λ','','','','',', <variaveis>','','','','','','','','','','','','','','','','','','','','','',''],
 ['','','','','','','','','','<comando> <mais_comandos>','','<comando> <mais_comandos>','<comando> <mais_comandos>','','','<comando> <mais_comandos>','','','<comando> <mais_comandos>','','','','','','','','','','','','','',''],
 ['','','','λ','','; <comandos>','','','','','','','','','','','','λ','','','','','','','','','','','','','','','λ'],
-['','','','','','','','','','ident := <expressao>','','read (ident)','write (ident)','','','if <condicao> do <comandos> <pfalsa> $','','','while <condicao> do <comandos> $','','','','','','','','','','','','','',''],
+['','','','','','','','','','ident := <expressao>','','read ( ident )','write ( ident )','','','if <condicao> do <comandos> <pfalsa> $','','','while <condicao> do <comandos> $','','','','','','','','','','','','','',''],
 ['','','','','','','','','','<expressao> <relacao> <expressao>','','','','<expressao> <relacao> <expressao>','','','','','','','','','','','','','<expressao> <relacao> <expressao>','<expressao> <relacao> <expressao>','<expressao> <relacao> <expressao>','','','',''],
 ['','','','','','','','','','','','','','','','','','','','','=','<>','>=','<=','>','<','','','','','','',''],
 ['','','','','','','','','','<termo> <outros_termos>','','','','<termo> <outros_termos>','','','','','','','','','','','','','<termo> <outros_termos>','<termo> <outros_termos>','<termo> <outros_termos>','','','',''],
