@@ -155,7 +155,24 @@ class Parser:
                         self.match()
 
             elif token_atual.type == my_token.TokenType.IDENT:
-                self.match()
+                if self.stack[-1] == '<variaveis>':
+                    self.derivate(VARIAVEIS, T_IDENT)
+                elif self.stack[-1] == '<comandos>':
+                    self.derivate(COMANDOS, T_IDENT)
+                elif self.stack[-1] == '<comando>':
+                    self.derivate(COMANDO, T_IDENT)
+                elif self.stack[-1] == '<condicao>':
+                    self.derivate(CONDICAO, T_IDENT)
+                elif self.stack[-1] == '<expressao>':
+                    self.derivate(EXPRESSAO, T_IDENT)
+                elif self.stack[-1] == '<termo>':
+                    self.derivate(TERMO, T_IDENT)
+                elif self.stack[-1] == '<op_un>':
+                    self.derivate(OP_UN, T_IDENT)
+                elif self.stack[-1] == '<fator>':
+                    self.derivate(FATOR, T_IDENT)
+                else:
+                    self.match()
 
             elif (token_atual.type == my_token.TokenType.SPACE or
                 token_atual.type == my_token.TokenType.NEWLINE_TOKEN or
