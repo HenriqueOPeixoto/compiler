@@ -125,7 +125,22 @@ class Parser:
                         self.derivate(MAIS_FATORES, T_THEN)
                     elif self.stack[-1] == 'then':
                         self.match()
+
+                elif token_atual.value == 'while':
+                    if self.stack[-1] == '<comandos>':
+                        self.derivate(COMANDOS, T_WHILE)
+                    elif self.stack[-1] == '<comando>':
+                        self.derivate(COMANDO, T_WHILE)
+                    elif self.stack[-1] == 'while':
+                        self.match()
                 
+                elif token_atual.value == 'do':
+                    if self.stack[-1] == '<outros_termos>':
+                        self.derivate(OUTROS_TERMOS, T_DO)
+                    elif self.stack[-1] == '<mais_fatores>':
+                        self.derivate(MAIS_FATORES, T_DO)
+                    elif self.stack[-1] == 'do':
+                        self.match()
 
             elif token_atual.type == my_token.TokenType.IDENT:
                 self.match()
