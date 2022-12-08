@@ -222,6 +222,10 @@ class Parser:
                     elif self.stack[-1] == '$':
                         self.match()
 
+                elif token_atual.value == '.':
+                    if self.stack[-1] == '.':
+                        accepted = True
+
             elif token_atual.type == my_token.TokenType.OPEN_PAR:
                 if token_atual.value == '(':
                     if self.stack[-1] == '<condicao>':
@@ -332,4 +336,6 @@ class Parser:
                 print('stack:', self.stack)
                 print('last token:', token_atual.to_string())
                 break
+    
+        return accepted
                         
