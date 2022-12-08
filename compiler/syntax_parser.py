@@ -11,8 +11,9 @@ class Parser:
     def derivate(self, rule, terminal):
         self.stack.pop()
         derivation = parse_table[rule][terminal].split(' ')
-        derivation.reverse()
-        self.stack.extend(derivation)
+        if 'λ' not in derivation:
+            derivation.reverse()
+            self.stack.extend(derivation)
     
     def match(self):
         self.stack.pop()
