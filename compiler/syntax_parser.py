@@ -231,6 +231,52 @@ class Parser:
                     elif self.stack[-1] == ')':
                         self.match()
             
+            elif token_atual.type == my_token.TokenType.OPERATOR:
+                if token_atual.value == '*':
+                    if self.stack[-1] == '<mais_fatores>':
+                        self.derivate(MAIS_FATORES, T_MUL)
+                    elif self.stack[-1] == '<op_mul>':
+                        self.derivate(OP_MUL, T_MUL)
+                    elif self.stack[-1] == '*':
+                        self.match()
+                
+                elif token_atual.value == '/':
+                    if self.stack[-1] == '<mais_fatores>':
+                        self.derivate(MAIS_FATORES, T_DIV)
+                    elif self.stack[-1] == '<op_mul>':
+                        self.derivate(OP_MUL, T_DIV)
+                    elif self.stack[-1] == '/':
+                        self.match()
+                
+                elif token_atual.value == '+':
+                    if self.stack[-1] == '<outros_termos>':
+                        self.derivate(OUTROS_TERMOS, T_PLUS)
+                    elif self.stack[-1] == '<op_ad>':
+                        self.derivate(OP_AD, T_PLUS)
+                    elif self.stack[-1] == '<mais_fatores>':
+                        self.derivate(MAIS_FATORES, T_PLUS)
+                    elif self.stack[-1] == '+':
+                        self.match()
+                
+                elif token_atual.value == '-':
+                    if self.stack[-1] == '<condicao>':
+                        self.derivate(CONDICAO, T_MINUS)
+                    elif self.stack[-1] == '<expressao>':
+                        self.derivate(EXPRESSAO, T_MINUS)
+                    elif self.stack[-1] == '<termo>':
+                        self.derivate(TERMO, T_MINUS)
+                    elif self.stack[-1] == '<op_un>':
+                        self.derivate(OP_UN, T_MINUS)
+                    elif self.stack[-1] == '<outros_termos>':
+                        self.derivate(OUTROS_TERMOS, T_MINUS)
+                    elif self.stack[-1] == '<op_ad>':
+                        self.derivate(OP_AD, T_MINUS)
+                    elif self.stack[-1] == '<mais_fatores>':
+                        self.derivate(MAIS_FATORES, T_MINUS)
+                    elif self.stack[-1] == '-':
+                        self.match()
+
+
             else:
                 print('stack:', self.stack)
                 print('last token:', token_atual.to_string())
