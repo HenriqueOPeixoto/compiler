@@ -39,19 +39,6 @@ class Parser:
                     else:
                         raise Exception('Era esperado o seguinte token: program')
                 
-                elif token_atual.value == 'real':
-                    if self.stack[-1] == '<corpo>':
-                        self.derivate(CORPO, T_REAL)
-                    elif self.stack[-1] == '<dc>':
-                        self.derivate(DC, T_REAL)
-                    elif self.stack[-1] == '<dc_v>':
-                        self.derivate(DC_V, T_REAL)
-                    elif self.stack[-1] == '<tipo_var>':
-                        self.derivate(TIPO_VAR, T_REAL)
-                    elif self.stack[-1] == 'real':
-                        self.match()
-                    else:
-                        raise Exception('Era esperado o seguinte token: real ou integer')
                 
                 elif token_atual.value == 'begin':
                     if self.stack[-1] == '<corpo>':
@@ -90,6 +77,20 @@ class Parser:
                 elif token_atual.value == ':':
                     if self.stack[-1]:
                         self.match()
+
+                elif token_atual.value == 'real':
+                    if self.stack[-1] == '<corpo>':
+                        self.derivate(CORPO, T_REAL)
+                    elif self.stack[-1] == '<dc>':
+                        self.derivate(DC, T_REAL)
+                    elif self.stack[-1] == '<dc_v>':
+                        self.derivate(DC_V, T_REAL)
+                    elif self.stack[-1] == '<tipo_var>':
+                        self.derivate(TIPO_VAR, T_REAL)
+                    elif self.stack[-1] == 'real':
+                        self.match()
+                    else:
+                        raise Exception('Era esperado o seguinte token: real ou integer')
 
             elif token_atual.type == my_token.TokenType.IDENT:
                 self.match()
