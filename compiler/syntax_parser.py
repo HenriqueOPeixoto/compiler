@@ -141,6 +141,18 @@ class Parser:
                         self.derivate(MAIS_FATORES, T_DO)
                     elif self.stack[-1] == 'do':
                         self.match()
+                
+                elif token_atual.value == 'else':
+                    if self.stack[-1] == '<mais_comandos>':
+                        self.derivate(MAIS_COMANDOS, T_ELSE)
+                    elif self.stack[-1] == '<outros_termos>':
+                        self.derivate(OUTROS_TERMOS, T_ELSE)
+                    elif self.stack[-1] == '<mais_fatores>':
+                        self.derivate(MAIS_FATORES, T_ELSE)
+                    elif self.stack[-1] == '<pfalsa>':
+                        self.derivate(PFALSA, T_ELSE)
+                    elif self.stack[-1] == 'else':
+                        self.match()
 
             elif token_atual.type == my_token.TokenType.IDENT:
                 self.match()
