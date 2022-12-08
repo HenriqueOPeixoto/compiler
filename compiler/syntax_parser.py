@@ -109,6 +109,23 @@ class Parser:
                         self.match()
                     else:
                         raise Exception('Era esperado um comando')
+                
+                elif token_atual.value == 'if':
+                    if self.stack[-1] == '<comandos>':
+                        self.derivate(COMANDOS, T_IF)
+                    elif self.stack[-1] == '<comando>':
+                        self.derivate(COMANDO, T_IF)
+                    elif self.stack[-1] == 'if':
+                        self.match()
+                
+                elif token_atual.value == 'then':
+                    if self.stack[-1] == '<outros_termos>':
+                        self.derivate(OUTROS_TERMOS, T_THEN)
+                    elif self.stack[-1] == '<mais_fatores>':
+                        self.derivate(MAIS_FATORES, T_THEN)
+                    elif self.stack[-1] == 'then':
+                        self.match()
+                
 
             elif token_atual.type == my_token.TokenType.IDENT:
                 self.match()
