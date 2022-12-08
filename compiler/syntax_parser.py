@@ -168,6 +168,13 @@ class Parser:
                 elif token_atual.value == ':=' and self.stack[-1] == ':=':
                     self.match()
             
+            elif token_atual.type == my_token.TokenType.SEPARATOR:
+                if token_atual.value == ',':
+                    if self.stack[-1] == '<mais_var>':
+                        self.derivate(MAIS_VAR, T_COMMA)
+                    elif self.stack[-1] == ',':
+                        self.match()    
+            
             else:
                 print('stack:', self.stack)
                 print('last token:', token_atual.to_string())
