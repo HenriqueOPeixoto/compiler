@@ -275,7 +275,23 @@ class Parser:
                         self.derivate(MAIS_FATORES, T_MINUS)
                     elif self.stack[-1] == '-':
                         self.match()
-
+            
+            
+            elif token_atual.type == my_token.TokenType.DIGIT:
+                if self.stack[-1] == '<condicao>':
+                    self.derivate(CONDICAO, T_NUMERO_INT)
+                elif self.stack[-1] == '<expressao>':
+                    self.derivate(EXPRESSAO, T_NUMERO_INT)
+                elif self.stack[-1] == '<termo>':
+                    self.derivate(TERMO, T_NUMERO_INT)
+                elif self.stack[-1] == '<op_un>':
+                    self.derivate(OP_UN, T_NUMERO_INT)
+                elif self.stack[-1] == '<fator>':
+                    self.derivate(FATOR, T_NUMERO_INT)
+                elif self.stack[-1] == 'numero_int':
+                    self.match()
+            
+            # TODO Implement real number derivation
 
             else:
                 print('stack:', self.stack)
