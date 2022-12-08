@@ -192,6 +192,7 @@ class Parser:
                         self.derivate(MAIS_VAR, T_COMMA)
                     elif self.stack[-1] == ',':
                         self.match()
+
                 elif token_atual.value == ';':
                     if self.stack[-1] == '<mais_dc>':
                         self.derivate(MAIS_DC, T_SEMICOLON)
@@ -206,6 +207,29 @@ class Parser:
                     elif self.stack[-1] == ';':
                         self.match()
 
+            elif token_atual.type == my_token.TokenType.OPEN_PAR:
+                if token_atual.value == '(':
+                    if self.stack[-1] == '<condicao>':
+                        self.derivate(CONDICAO, T_OPEN_PAR)
+                    elif self.stack[-1] == '<expressao>':
+                        self.derivate(EXPRESSAO, T_OPEN_PAR)
+                    elif self.stack[-1] == '<termo>':
+                        self.derivate(TERMO, T_OPEN_PAR)
+                    elif self.stack[-1] == '<op_un>':
+                        self.derivate(OP_UN, T_OPEN_PAR)
+                    elif self.stack[-1] == '<fator>':
+                        self.derivate(FATOR, T_OPEN_PAR)
+                    elif self.stack[-1] == '(':
+                        self.match()
+            
+            elif token_atual.type == my_token.TokenType.CLOSE_PAR:
+                if token_atual.value == ')':
+                    if self.stack[-1] == '<outros_termos>':
+                        self.derivate(OUTROS_TERMOS, T_CLOSE_PAR)
+                    elif self.stack[-1] == '<mais_fatores>':
+                        self.derivate(MAIS_FATORES, T_CLOSE_PAR)
+                    elif self.stack[-1] == ')':
+                        self.match()
             
             else:
                 print('stack:', self.stack)
