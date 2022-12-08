@@ -293,6 +293,26 @@ class Parser:
             
             # TODO Implement real number derivation
 
+            elif token_atual.type == my_token.TokenType.LOGICAL_OP:
+                logical_op_list = ['=', '<>', '>=', '<=', '>', '<']
+
+                # Gets the starting index of the logical operators on the parse table
+                start_of_logical_operators = T_EQUAL
+
+                # returns the offset of the operator compared to EQUAL on parse table
+                op_offset = logical_op_list.index(token_atual.value)
+
+                logical_op = start_of_logical_operators + op_offset
+
+                if self.stack[-1] == '<relacao>':
+                    self.derivate(RELACAO, logical_op)
+                elif self.stack[-1] == '<outros_termos>':
+                    self.derivate(OUTROS_TERMOS, logical_op)
+                elif self.stack[-1] == '<mais_fatores>':
+                    self.derivate(MAIS_FATORES, logical_op)
+                elif self.stack[-1] in logical_op_list:
+                    self.match()
+
             else:
                 print('stack:', self.stack)
                 print('last token:', token_atual.to_string())
