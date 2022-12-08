@@ -66,7 +66,30 @@ class Parser:
                         self.match()
                     else:
                         raise Exception('Era esperado o token begin')
+                
+                elif token_atual.value == 'end':
+                    if self.stack[-1] == '<mais_comandos>':
+                        self.derivate(MAIS_COMANDOS, T_END)
+                    elif self.stack[-1] == '<outros_termos>':
+                        self.derivate(OUTROS_TERMOS, T_END)
+                    elif self.stack[-1] == '<mais_fatores>':
+                        self.derivate(MAIS_FATORES, T_END)
                     
+                elif token_atual.value == ';':
+                    if self.stack[-1] == '<mais_dc>':
+                        self.derivate(MAIS_DC, T_SEMICOLON)
+                    elif self.stack[-1] == '<mais_var>':
+                        self.derivate(MAIS_VAR, T_SEMICOLON)
+                    elif self.stack[-1] == '<mais_comandos>':
+                        self.derivate(MAIS_COMANDOS, T_SEMICOLON)
+                    elif self.stack[-1] == '<outros_termos>':
+                        self.derivate(OUTROS_TERMOS, T_SEMICOLON)
+                    elif self.stack[-1] == '<mais_fatores>':
+                        self.derivate(MAIS_FATORES, T_SEMICOLON)
+                
+                elif token_atual.value == ':':
+                    if self.stack[-1]:
+                        self.match()
 
             elif token_atual.type == my_token.TokenType.IDENT:
                 self.match()
