@@ -14,7 +14,7 @@ begin
   else
   	write(b)
   $;
-  um(a,b,c,d);         {real,real,inteiro,inteiro}
+  {um(a,b,c,d);         real,real,inteiro,inteiro Essa funcao nao esta prevista na linguagem}
   if d < c then
   	write(d)
   else
