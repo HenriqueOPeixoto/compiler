@@ -93,9 +93,19 @@ class Parser:
                 elif token_atual.value == 'read':
                     if self.stack[-1] == '<comandos>':
                         self.derivate(COMANDOS, T_READ)
-                    elif self.stack[-1] == '<comandos>':
+                    elif self.stack[-1] == '<comando>':
                         self.derivate(COMANDO, T_READ)
                     elif self.stack[-1] == 'read':
+                        self.match()
+                    else:
+                        raise Exception('Era esperado um comando')
+                
+                elif token_atual.value == 'write':
+                    if self.stack[-1] == '<comandos>':
+                        self.derivate(COMANDOS, T_WRITE)
+                    elif self.stack[-1] == '<comando>':
+                        self.derivate(COMANDO, T_WRITE)
+                    elif self.stack[-1] == 'write':
                         self.match()
                     else:
                         raise Exception('Era esperado um comando')
