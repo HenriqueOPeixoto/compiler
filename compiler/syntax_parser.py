@@ -1,9 +1,6 @@
 import my_token
 from parse_error import ParseError
 
-# TODO Implement 'real' number derivation
-# TODO Add error handling
-
 from parse_table import *
 
 class Parser:
@@ -370,8 +367,6 @@ class Parser:
                     self.match()
                 else:
                         raise ParseError('Era esperado um token da regra {}, mas recebi {}'.format(self.stack[-1], token_atual.to_string()), self.filename, self.linenum)
-            
-            # TODO Implement real number derivation
 
             elif token_atual.type == my_token.TokenType.LOGICAL_OP:
                 logical_op_list = ['=', '<>', '>=', '<=', '>', '<']
