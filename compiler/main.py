@@ -59,7 +59,7 @@ try:
     if args.count:
         print_token_amount(tokens)
     
-    parser = syntax_parser.Parser(tokens)
+    parser = syntax_parser.Parser(tokens, input_file.name)
     parser.parse_syntax()
 
 except FileNotFoundError:

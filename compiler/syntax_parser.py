@@ -1,4 +1,5 @@
 import my_token
+from parse_error import ParseError
 
 # TODO Implement 'real' number derivation
 # TODO Add error handling
@@ -7,9 +8,11 @@ from parse_table import *
 
 class Parser:
 
-    def __init__(self, tokens: list[my_token.Token]) -> None:
+    def __init__(self, tokens: list[my_token.Token], filename) -> None:
         self.tokens = tokens
         self.stack = None
+        self.linenum = 1
+        self.filename = filename
 
     def derivate(self, rule, terminal):
         self.stack.pop()
@@ -42,7 +45,7 @@ class Parser:
                     elif self.stack[-1] == 'program':
                         self.match()
                     else:
-                        raise Exception('Sintaxe inválida')
+                        raise ParseError('Era esperado um token da regra {}, mas recebi {}'.format(self.stack[-1], token_atual.to_string()), self.filename, self.linenum)
                 
                 
                 elif token_atual.value == 'begin':
@@ -57,7 +60,7 @@ class Parser:
                     elif self.stack[-1] == 'begin':
                         self.match()
                     else:
-                        raise Exception('Sintaxe inválida')
+                        raise ParseError('Era esperado um token da regra {}, mas recebi {}'.format(self.stack[-1], token_atual.to_string()), self.filename, self.linenum)
                 
                 elif token_atual.value == 'end':
                     if self.stack[-1] == '<mais_comandos>':
@@ -81,7 +84,7 @@ class Parser:
                     elif self.stack[-1] == 'real':
                         self.match()
                     else:
-                        raise Exception('Sintaxe inválida')
+                        raise ParseError('Era esperado um token da regra {}, mas recebi {}'.format(self.stack[-1], token_atual.to_string()), self.filename, self.linenum)
                     
                 elif token_atual.value == 'integer':
                     if self.stack[-1] == '<corpo>':
@@ -95,7 +98,7 @@ class Parser:
                     elif self.stack[-1] == 'integer':
                         self.match()
                     else:
-                        raise Exception('Sintaxe inválida')
+                        raise ParseError('Era esperado um token da regra {}, mas recebi {}'.format(self.stack[-1], token_atual.to_string()), self.filename, self.linenum)
                 
                 elif token_atual.value == 'read':
                     if self.stack[-1] == '<comandos>':
@@ -105,7 +108,7 @@ class Parser:
                     elif self.stack[-1] == 'read':
                         self.match()
                     else:
-                        raise Exception('Sintaxe inválida')
+                        raise ParseError('Era esperado um token da regra {}, mas recebi {}'.format(self.stack[-1], token_atual.to_string()), self.filename, self.linenum)
                 
                 elif token_atual.value == 'write':
                     if self.stack[-1] == '<comandos>':
@@ -115,7 +118,7 @@ class Parser:
                     elif self.stack[-1] == 'write':
                         self.match()
                     else:
-                        raise Exception('Sintaxe inválida')
+                        raise ParseError('Era esperado um token da regra {}, mas recebi {}'.format(self.stack[-1], token_atual.to_string()), self.filename, self.linenum)
                 
                 elif token_atual.value == 'if':
                     if self.stack[-1] == '<comandos>':
@@ -125,7 +128,7 @@ class Parser:
                     elif self.stack[-1] == 'if':
                         self.match()
                     else:
-                        raise Exception('Sintaxe inválida')
+                        raise ParseError('Era esperado um token da regra {}, mas recebi {}'.format(self.stack[-1], token_atual.to_string()), self.filename, self.linenum)
                 
                 elif token_atual.value == 'then':
                     if self.stack[-1] == '<outros_termos>':
@@ -135,7 +138,7 @@ class Parser:
                     elif self.stack[-1] == 'then':
                         self.match()
                     else:
-                        raise Exception('Sintaxe inválida')
+                        raise ParseError('Era esperado um token da regra {}, mas recebi {}'.format(self.stack[-1], token_atual.to_string()), self.filename, self.linenum)
 
                 elif token_atual.value == 'while':
                     if self.stack[-1] == '<comandos>':
@@ -145,7 +148,7 @@ class Parser:
                     elif self.stack[-1] == 'while':
                         self.match()
                     else:
-                        raise Exception('Sintaxe inválida')
+                        raise ParseError('Era esperado um token da regra {}, mas recebi {}'.format(self.stack[-1], token_atual.to_string()), self.filename, self.linenum)
                 
                 elif token_atual.value == 'do':
                     if self.stack[-1] == '<outros_termos>':
@@ -155,7 +158,7 @@ class Parser:
                     elif self.stack[-1] == 'do':
                         self.match()
                     else:
-                        raise Exception('Sintaxe inválida')
+                        raise ParseError('Era esperado um token da regra {}, mas recebi {}'.format(self.stack[-1], token_atual.to_string()), self.filename, self.linenum)
                 
                 elif token_atual.value == 'else':
                     if self.stack[-1] == '<mais_comandos>':
@@ -169,7 +172,7 @@ class Parser:
                     elif self.stack[-1] == 'else':
                         self.match()
                     else:
-                        raise Exception('Sintaxe inválida')
+                        raise ParseError('Era esperado um token da regra {}, mas recebi {}'.format(self.stack[-1], token_atual.to_string()), self.filename, self.linenum)
 
             elif token_atual.type == my_token.TokenType.IDENT:
                 if self.stack[-1] == '<variaveis>':
@@ -191,11 +194,14 @@ class Parser:
                 elif self.stack[-1] == 'ident':
                     self.match()
                 else:
-                        raise Exception('Sintaxe inválida')
+                        raise ParseError('Era esperado um token da regra {}, mas recebi {}'.format(self.stack[-1], token_atual.to_string()), self.filename, self.linenum)
 
             elif (token_atual.type == my_token.TokenType.SPACE or
-                token_atual.type == my_token.TokenType.NEWLINE_TOKEN or
                 token_atual.type == my_token.TokenType.COMMENT):
+                self.tokens.pop()
+            
+            elif token_atual.type == my_token.TokenType.NEWLINE_TOKEN:
+                self.linenum += 1
                 self.tokens.pop()
             
             elif token_atual.type == my_token.TokenType.ATRIB:
@@ -204,7 +210,7 @@ class Parser:
                 elif token_atual.value == ':=' and self.stack[-1] == ':=':
                     self.match()
                 else:
-                        raise Exception('Sintaxe inválida')
+                        raise ParseError('Era esperado um token da regra {}, mas recebi {}'.format(self.stack[-1], token_atual.to_string()), self.filename, self.linenum)
             
             elif token_atual.type == my_token.TokenType.SEPARATOR:
                 if token_atual.value == ',':
@@ -213,7 +219,7 @@ class Parser:
                     elif self.stack[-1] == ',':
                         self.match()
                     else:
-                        raise Exception('Sintaxe inválida')
+                        raise ParseError('Era esperado um token da regra {}, mas recebi {}'.format(self.stack[-1], token_atual.to_string()), self.filename, self.linenum)
 
                 elif token_atual.value == ';':
                     if self.stack[-1] == '<mais_dc>':
@@ -229,7 +235,7 @@ class Parser:
                     elif self.stack[-1] == ';':
                         self.match()
                     else:
-                        raise Exception('Sintaxe inválida')
+                        raise ParseError('Era esperado um token da regra {}, mas recebi {}'.format(self.stack[-1], token_atual.to_string()), self.filename, self.linenum)
                 
                 elif token_atual.value == '$':
                     if self.stack[-1] == '<mais_comandos>':
@@ -243,7 +249,7 @@ class Parser:
                     elif self.stack[-1] == '$':
                         self.match()
                     else:
-                        raise Exception('Sintaxe inválida')
+                        raise ParseError('Era esperado um token da regra {}, mas recebi {}'.format(self.stack[-1], token_atual.to_string()), self.filename, self.linenum)
 
                 elif token_atual.value == '.':
                     if self.stack[-1] == '.':
@@ -264,7 +270,7 @@ class Parser:
                     elif self.stack[-1] == '(':
                         self.match()
                     else:
-                        raise Exception('Sintaxe inválida')
+                        raise ParseError('Era esperado um token da regra {}, mas recebi {}'.format(self.stack[-1], token_atual.to_string()), self.filename, self.linenum)
             
             elif token_atual.type == my_token.TokenType.CLOSE_PAR:
                 if token_atual.value == ')':
@@ -275,7 +281,7 @@ class Parser:
                     elif self.stack[-1] == ')':
                         self.match()
                     else:
-                        raise Exception('Sintaxe inválida')
+                        raise ParseError('Era esperado um token da regra {}, mas recebi {}'.format(self.stack[-1], token_atual.to_string()), self.filename, self.linenum)
             
             elif token_atual.type == my_token.TokenType.OPERATOR:
                 if token_atual.value == '*':
@@ -286,7 +292,7 @@ class Parser:
                     elif self.stack[-1] == '*':
                         self.match()
                     else:
-                        raise Exception('Sintaxe inválida')
+                        raise ParseError('Era esperado um token da regra {}, mas recebi {}'.format(self.stack[-1], token_atual.to_string()), self.filename, self.linenum)
                 
                 elif token_atual.value == '/':
                     if self.stack[-1] == '<mais_fatores>':
@@ -296,7 +302,7 @@ class Parser:
                     elif self.stack[-1] == '/':
                         self.match()
                     else:
-                        raise Exception('Sintaxe inválida')
+                        raise ParseError('Era esperado um token da regra {}, mas recebi {}'.format(self.stack[-1], token_atual.to_string()), self.filename, self.linenum)
                 
                 elif token_atual.value == '+':
                     if self.stack[-1] == '<outros_termos>':
@@ -308,7 +314,7 @@ class Parser:
                     elif self.stack[-1] == '+':
                         self.match()
                     else:
-                        raise Exception('Sintaxe inválida')
+                        raise ParseError('Era esperado um token da regra {}, mas recebi {}'.format(self.stack[-1], token_atual.to_string()), self.filename, self.linenum)
                 
                 elif token_atual.value == '-':
                     if self.stack[-1] == '<condicao>':
@@ -328,7 +334,7 @@ class Parser:
                     elif self.stack[-1] == '-':
                         self.match()
                     else:
-                        raise Exception('Sintaxe inválida')
+                        raise ParseError('Era esperado um token da regra {}, mas recebi {}'.format(self.stack[-1], token_atual.to_string()), self.filename, self.linenum)
             
             
             elif token_atual.type == my_token.TokenType.DIGIT:
@@ -345,7 +351,7 @@ class Parser:
                 elif self.stack[-1] == 'numero_int':
                     self.match()
                 else:
-                        raise Exception('Sintaxe inválida')
+                        raise ParseError('Era esperado um token da regra {}, mas recebi {}'.format(self.stack[-1], token_atual.to_string()), self.filename, self.linenum)
             
             # TODO Implement real number derivation
 
@@ -369,7 +375,7 @@ class Parser:
                 elif self.stack[-1] in logical_op_list:
                     self.match()
                 else:
-                        raise Exception('Sintaxe inválida')
+                        raise ParseError('Era esperado um token da regra {}, mas recebi {}'.format(self.stack[-1], token_atual.to_string()), self.filename, self.linenum)
 
             else:
                 print('stack:', self.stack)
