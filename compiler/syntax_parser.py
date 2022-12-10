@@ -23,7 +23,7 @@ class Parser:
         self.tokens.pop()
 
 
-    def parse_syntax(self):
+    def parse_syntax(self, print_steps: bool):
 
         accepted = False
         self.stack = ['<programa>', '.']
@@ -33,7 +33,9 @@ class Parser:
         while self.stack[0] != '.' or accepted == False:
 
             token_atual = self.tokens[-1]
-            print(token_atual.to_string(), self.stack[-1])
+            
+            if print_steps:
+                print(token_atual.to_string(), self.stack[-1])
 
             if token_atual.type == my_token.TokenType.KEYWORD:
                 if token_atual.value == 'program':

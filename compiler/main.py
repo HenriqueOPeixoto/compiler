@@ -12,6 +12,8 @@ def parse_cmd_args():
                         action='store_true')
     parser.add_argument('-c', '--count', help='Prints identified tokens amount (ignores whitespace and newline tokens)',
                         action='store_true')
+    parser.add_argument('-p', '--parse_steps', help='Prints all of the parsing steps',
+                        action='store_true')
     args = parser.parse_args()
     return args
 
@@ -36,11 +38,17 @@ def print_token_amount(tokens):
 args = parse_cmd_args()
 
 try:
+    print('===========================================')
+    print('| Compilador LAlg v4 por Henrique Peixoto |')
+    print('===========================================\n')
+
+    print('Dica: Digite --help ao iniciar o script para ver uma lista de parâmetros.\n')
+
     input_file = open(args.file, 'r')
     content = input_file.read()
     
     # lex_scanner.next_token(content=input_file)
-
+    print('Iniciando análise léxica...')
     lex = lex_scanner.LexScanner(content)
     tokens = []
     while (True):
@@ -50,6 +58,8 @@ try:
             break
 
         tokens.append(token)
+    
+    print('|-Análise Léxica concluída\n')
 
     input_file.close()
 
@@ -59,8 +69,12 @@ try:
     if args.count:
         print_token_amount(tokens)
     
+    print('Iniciando Análise Sintática...')
+    
     parser = syntax_parser.Parser(tokens, input_file.name)
-    parser.parse_syntax()
+    parser.parse_syntax(print_steps=args.parse_steps)
+
+    print('|-Análise sintática concluída\n')
 
 except FileNotFoundError:
     print('Não foi possível encontrar o arquivo especificado.')
