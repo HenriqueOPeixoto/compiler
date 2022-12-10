@@ -108,12 +108,25 @@ class LexScanner:
             elif self.state == my_token.TokenType.DIGIT:
                 if c.isnumeric():
                     buffer.append(c)
+                elif c == '.':
+                    buffer.append(c)
+                    self.state = my_token.TokenType.REAL_NUM
                 else:
                     self.state = my_token.TokenType.NOT_DIGIT
 
             elif self.state == my_token.TokenType.NOT_DIGIT:
                 self.pos -= 1
                 return my_token.Token(int("".join(buffer)), my_token.TokenType.DIGIT)
+            
+            elif self.state == my_token.TokenType.REAL_NUM:
+                if c.isnumeric():
+                    buffer.append(c)
+                else:
+                    self.state = my_token.TokenType.NOT_REAL_NUM
+            
+            elif self.state == my_token.TokenType.NOT_REAL_NUM:
+                self.pos -= 1
+                return my_token.Token(float("".join(buffer)), my_token.TokenType.REAL_NUM)
             
             # =================== SPACE ====================
 

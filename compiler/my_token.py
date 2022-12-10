@@ -36,3 +36,5 @@ class TokenType(IntEnum):
     SEPARATOR = 15
     OPEN_PAR = 16 # (
     CLOSE_PAR = 17 # )
+    REAL_NUM = 18 # float values
+    NOT_REAL_NUM = 19

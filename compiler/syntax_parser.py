@@ -252,8 +252,10 @@ class Parser:
                         raise ParseError('Era esperado um token da regra {}, mas recebi {}'.format(self.stack[-1], token_atual.to_string()), self.filename, self.linenum)
 
                 elif token_atual.value == '.':
-                    if self.stack[-1] == '.':
+                    if self.stack[-1] == '.' and len(self.stack) == 1:
                         accepted = True
+                    else:
+                        raise ParseError('Era esperado um token da regra {}, mas recebi {}'.format(self.stack[-1], token_atual.to_string()), self.filename, self.linenum)
 
             elif token_atual.type == my_token.TokenType.OPEN_PAR:
                 if token_atual.value == '(':
@@ -349,6 +351,22 @@ class Parser:
                 elif self.stack[-1] == '<fator>':
                     self.derivate(FATOR, T_NUMERO_INT)
                 elif self.stack[-1] == 'numero_int':
+                    self.match()
+                else:
+                        raise ParseError('Era esperado um token da regra {}, mas recebi {}'.format(self.stack[-1], token_atual.to_string()), self.filename, self.linenum)
+            
+            elif token_atual.type == my_token.TokenType.REAL_NUM:
+                if self.stack[-1] == '<condicao>':
+                    self.derivate(CONDICAO, T_NUMERO_REAL)
+                elif self.stack[-1] == '<expressao>':
+                    self.derivate(EXPRESSAO, T_NUMERO_REAL)
+                elif self.stack[-1] == '<termo>':
+                    self.derivate(TERMO, T_NUMERO_REAL)
+                elif self.stack[-1] == '<op_un>':
+                    self.derivate(OP_UN, T_NUMERO_REAL)
+                elif self.stack[-1] == '<fator>':
+                    self.derivate(FATOR, T_NUMERO_REAL)
+                elif self.stack[-1] == 'numero_real':
                     self.match()
                 else:
                         raise ParseError('Era esperado um token da regra {}, mas recebi {}'.format(self.stack[-1], token_atual.to_string()), self.filename, self.linenum)
