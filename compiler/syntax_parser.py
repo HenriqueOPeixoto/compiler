@@ -1,5 +1,6 @@
 import my_token
 from parse_error import ParseError
+from semantic_error import SemanticError
 
 from parse_table import *
 
@@ -206,6 +207,8 @@ class Parser:
                     self.derivate(FATOR, T_IDENT)
                 elif self.stack[-1] == 'ident':
                     if self.atrib:
+                        if token_atual.value in self.symbol_table:
+                            raise SemanticError('Um identificador com o nome \'{}\' já existe.'.format(token_atual.value), self.filename, self.linenum)
                         self.symbol_table[token_atual.value] = self.var_type # Var type é definido de acordo com
                                                                              # o token mais recente, real ou integer.
                     self.match()
