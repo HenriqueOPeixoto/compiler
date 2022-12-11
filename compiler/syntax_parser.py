@@ -18,7 +18,8 @@ class Parser:
         self.symbol_table = {}
         
         self.var_type = None
-        self.atrib = False # Determina se deve atribuir um valor à uma var
+        self.define_type = False # Determina se deve definir o tipo de uma var
+        self.atrib = None # Determina se deve atribuir valor a uma var
 
     def derivate(self, rule, terminal):
         self.stack.pop()
@@ -51,7 +52,7 @@ class Parser:
                     if self.stack[-1] == '<programa>':
                         self.derivate(PROGRAMA, T_PROGRAM)
                     elif self.stack[-1] == 'program':
-                        self.atrib = True
+                        self.define_type = True
                         self.var_type = self.stack[-1]
                         self.match()
                     else:
@@ -92,7 +93,7 @@ class Parser:
                     elif self.stack[-1] == '<tipo_var>':
                         self.derivate(TIPO_VAR, T_REAL)
                     elif self.stack[-1] == 'real':
-                        self.atrib = True
+                        self.define_type = True
                         self.var_type = self.stack[-1] # Type definition
                         self.match()
                     else:
@@ -108,7 +109,7 @@ class Parser:
                     elif self.stack[-1] == '<tipo_var>':
                         self.derivate(TIPO_VAR, T_INTEGER)
                     elif self.stack[-1] == 'integer':
-                        self.atrib = True
+                        self.define_type = True
                         self.var_type = self.stack[-1] # Type definition
                         self.match()
                     else:
@@ -206,7 +207,7 @@ class Parser:
                 elif self.stack[-1] == '<fator>':
                     self.derivate(FATOR, T_IDENT)
                 elif self.stack[-1] == 'ident':
-                    if self.atrib:
+                    if self.define_type:
                         if token_atual.value in self.symbol_table:
                             raise SemanticError('Um identificador com o nome \'{}\' já existe.'.format(token_atual.value), self.filename, self.linenum)
                         self.symbol_table[token_atual.value] = self.var_type # Var type é definido de acordo com
@@ -252,7 +253,7 @@ class Parser:
                     elif self.stack[-1] == '<mais_fatores>':
                         self.derivate(MAIS_FATORES, T_SEMICOLON)
                     elif self.stack[-1] == ';':
-                        self.atrib = False
+                        self.define_type = False
                         self.var_type = None # Resets the var type
                         self.match()
                     else:
