@@ -14,6 +14,8 @@ def parse_cmd_args():
                         action='store_true')
     parser.add_argument('-p', '--parse_steps', help='Prints all of the parsing steps',
                         action='store_true')
+    parser.add_argument('-s', '--symbols', help='Prints the symbol table',
+                        action='store_true')
     args = parser.parse_args()
     return args
 
@@ -72,7 +74,7 @@ try:
     print('Iniciando Análise Sintática...')
     
     parser = syntax_parser.Parser(tokens, input_file.name)
-    parser.parse_syntax(print_steps=args.parse_steps)
+    parser.parse_syntax(print_steps=args.parse_steps, print_symbols=args.symbols)
 
     print('|-Análise sintática concluída\n')
 
