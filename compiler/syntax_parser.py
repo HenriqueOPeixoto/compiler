@@ -4,10 +4,6 @@ from semantic_error import SemanticError
 
 from parse_table import *
 
-# VAR_TYPES FOR SYMBOL TABLE
-INT_VAR = 0
-REAL_VAR = 1
-
 class Parser:
 
     def __init__(self, tokens: list[my_token.Token], filename) -> None:
