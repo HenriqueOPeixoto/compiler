@@ -3,6 +3,10 @@ from parse_error import ParseError
 
 from parse_table import *
 
+# VAR_TYPES FOR SYMBOL TABLE
+INT_VAR = 0
+REAL_VAR = 1
+
 class Parser:
 
     def __init__(self, tokens: list[my_token.Token], filename) -> None:
@@ -10,6 +14,10 @@ class Parser:
         self.stack = None
         self.linenum = 1
         self.filename = filename
+        self.symbol_table = {}
+        
+        self.var_type = None
+        self.atrib = False # Determina se deve atribuir um valor à uma var
 
     def derivate(self, rule, terminal):
         self.stack.pop()
@@ -23,7 +31,7 @@ class Parser:
         self.tokens.pop()
 
 
-    def parse_syntax(self, print_steps: bool):
+    def parse_syntax(self, print_steps=False, print_symbols=False):
 
         accepted = False
         self.stack = ['<programa>', '.']
@@ -42,6 +50,8 @@ class Parser:
                     if self.stack[-1] == '<programa>':
                         self.derivate(PROGRAMA, T_PROGRAM)
                     elif self.stack[-1] == 'program':
+                        self.atrib = True
+                        self.var_type = self.stack[-1]
                         self.match()
                     else:
                         raise ParseError('Era esperado um token da regra {}, mas recebi {}'.format(self.stack[-1], token_atual.to_string()), self.filename, self.linenum)
@@ -81,6 +91,8 @@ class Parser:
                     elif self.stack[-1] == '<tipo_var>':
                         self.derivate(TIPO_VAR, T_REAL)
                     elif self.stack[-1] == 'real':
+                        self.atrib = True
+                        self.var_type = self.stack[-1] # Type definition
                         self.match()
                     else:
                         raise ParseError('Era esperado um token da regra {}, mas recebi {}'.format(self.stack[-1], token_atual.to_string()), self.filename, self.linenum)
@@ -95,6 +107,8 @@ class Parser:
                     elif self.stack[-1] == '<tipo_var>':
                         self.derivate(TIPO_VAR, T_INTEGER)
                     elif self.stack[-1] == 'integer':
+                        self.atrib = True
+                        self.var_type = self.stack[-1] # Type definition
                         self.match()
                     else:
                         raise ParseError('Era esperado um token da regra {}, mas recebi {}'.format(self.stack[-1], token_atual.to_string()), self.filename, self.linenum)
@@ -191,6 +205,9 @@ class Parser:
                 elif self.stack[-1] == '<fator>':
                     self.derivate(FATOR, T_IDENT)
                 elif self.stack[-1] == 'ident':
+                    if self.atrib:
+                        self.symbol_table[token_atual.value] = self.var_type # Var type é definido de acordo com
+                                                                             # o token mais recente, real ou integer.
                     self.match()
                 else:
                         raise ParseError('Era esperado um token da regra {}, mas recebi {}'.format(self.stack[-1], token_atual.to_string()), self.filename, self.linenum)
@@ -232,6 +249,8 @@ class Parser:
                     elif self.stack[-1] == '<mais_fatores>':
                         self.derivate(MAIS_FATORES, T_SEMICOLON)
                     elif self.stack[-1] == ';':
+                        self.atrib = False
+                        self.var_type = None # Resets the var type
                         self.match()
                     else:
                         raise ParseError('Era esperado um token da regra {}, mas recebi {}'.format(self.stack[-1], token_atual.to_string()), self.filename, self.linenum)
@@ -396,6 +415,10 @@ class Parser:
                 print('stack:', self.stack)
                 print('last token:', token_atual.to_string())
                 break
-    
+        
+        if print_symbols:
+            print('|-Imprimindo tabela de símbolos:\n')
+            print(self.symbol_table, '\n')
+
         return accepted
                         
