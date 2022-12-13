@@ -1,0 +1,45 @@
+INPP
+
+# DECLARACAO DE VARS
+
+ALME 1
+ALME 1
+ALME 1
+ALME 1
+
+#ENDERECOS
+# A:0
+# B:1
+# C:2
+# D:3
+
+# CORPO DO PROGRAMA
+
+LEIT
+LEIT
+
+CRVL 1
+CRVL 0
+CRVL 0
+CRVL 0
+
+# B A A A
+
+MULT # A * A
+SOMA # A*A + A
+ARMZ 1 # B = A*A + a
+
+CRVL 3
+CRCT 2
+CRVL 2
+
+# D 2 C
+
+MULT
+
+CRVL 2
+
+SOMA
+ARMZ 3
+
+PARA
