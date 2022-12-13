@@ -10,6 +10,9 @@ class Token:
     def to_string(self) -> str:
         return '[{}: {}]'.format(self.value, self.type.name)
     
+    def __repr__(self) -> str:
+        return '[{}: {}]'.format(self.value, self.type.name)
+    
     # Only prints token type codes
     def to_string_brief(self) -> str:
         return '[{}: {}]'.format(self.value, self.type)
