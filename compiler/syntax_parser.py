@@ -7,7 +7,7 @@ from parse_table import *
 
 class Parser:
 
-    def __init__(self, tokens: list[my_token.Token], filename) -> None:
+    def __init__(self, tokens: 'list[my_token.Token]', filename) -> None:
         self.tokens = tokens
         self.stack = None
         self.linenum = 1

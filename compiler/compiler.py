@@ -2,7 +2,7 @@ import my_token
 
 class Compiler:
 
-    def __init__(self, tokens: list[my_token.Token]) -> None:
+    def __init__(self, tokens: 'list[my_token.Token]') -> None:
         self.tokens = tokens
         self.tokens.reverse()
 
