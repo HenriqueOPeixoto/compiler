@@ -10,8 +10,9 @@ class Compiler:
     def compile(self):
         self.code = []
         self.data = []
+        self.pos = 0
 
-        while not 'PARA' in self.code:
+        while self.pos != len(self.tokens):
             token_atual = self.tokens[-1]
             
             token_atual = self.tokens[-1]
@@ -24,7 +25,7 @@ class Compiler:
                     pass
                 
                 elif token_atual.value == 'end':
-                    pass
+                    self.code.append('PARA')
 
                 elif token_atual.value == 'real':
                     pass
@@ -33,10 +34,10 @@ class Compiler:
                     pass
                 
                 elif token_atual.value == 'read':
-                    pass
+                    self.code('LEIT')
                 
                 elif token_atual.value == 'write':
-                    pass
+                    self.code('IMPR')
                 
                 elif token_atual.value == 'if':
                     pass
