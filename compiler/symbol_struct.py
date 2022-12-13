@@ -6,5 +6,5 @@ class SymbolTableData:
         self.type = type
         self.address = address
 
-    def to_string(self):
+    def __repr__(self):
         return '[type: {}, addr: {}]'.format(self.type, self.address)
