@@ -78,6 +78,7 @@ try:
         print_token_amount(tokens)
     
     if args.rpn:
+        print('-> -> -> AVISO: o argumento --rpn encerra a execução após a análise léxica. <- <- <-\n')
         print(rpn.shunting_yard(tokens))
         sys.exit()
         
