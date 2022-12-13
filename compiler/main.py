@@ -4,6 +4,9 @@ import argparse
 import lex_scanner
 import syntax_parser
 
+import utils.rpn as rpn # for testing purposes
+import sys
+
 # Parse arguments inserted via command line interface
 def parse_cmd_args():
     parser = argparse.ArgumentParser()
@@ -15,6 +18,8 @@ def parse_cmd_args():
     parser.add_argument('-p', '--parse_steps', help='Prints all of the parsing steps',
                         action='store_true')
     parser.add_argument('-s', '--symbols', help='Prints the symbol table',
+                        action='store_true')
+    parser.add_argument('--rpn', help='Debug RPN implementation. Will only execute lexical analysis.',
                         action='store_true')
     args = parser.parse_args()
     return args
@@ -70,6 +75,11 @@ try:
 
     if args.count:
         print_token_amount(tokens)
+    
+    if args.rpn:
+        print(rpn.shunting_yard(tokens))
+        sys.exit()
+        
     
     print('Iniciando Análise Sintática...')
     
