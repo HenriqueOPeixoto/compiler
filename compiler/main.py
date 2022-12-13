@@ -19,7 +19,8 @@ def parse_cmd_args():
                         action='store_true')
     parser.add_argument('-s', '--symbols', help='Prints the symbol table',
                         action='store_true')
-    parser.add_argument('--rpn', help='Debug RPN implementation. Will only execute lexical analysis.',
+    parser.add_argument('--rpn', help='Debug RPN implementation, use only for testing. Will stop after lexical analysis. ' + 
+                                        'The input file must only include numerical values and operators.',
                         action='store_true')
     args = parser.parse_args()
     return args
