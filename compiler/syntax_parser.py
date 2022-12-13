@@ -1,6 +1,7 @@
 import my_token
 from parse_error import ParseError
 from semantic_error import SemanticError
+from symbol_struct import SymbolTableData # Define o formato das entradas na symbol table
 
 from parse_table import *
 
@@ -206,7 +207,8 @@ class Parser:
                     if self.define_type:
                         if token_atual.value in self.symbol_table:
                             raise SemanticError('Um identificador com o nome \'{}\' já existe.'.format(token_atual.value), self.filename, self.linenum)
-                        self.symbol_table[token_atual.value] = self.var_type # Var type é definido de acordo com
+                        symbol_details = SymbolTableData(self.var_type, 0)
+                        self.symbol_table[token_atual.value] = symbol_details # Var type é definido de acordo com
                                                                              # o token mais recente, real ou integer.
                     self.match()
                 else:
@@ -418,7 +420,7 @@ class Parser:
         
         if print_symbols:
             print('|-Imprimindo tabela de símbolos:\n')
-            print(self.symbol_table, '\n')
+            print(self.symbol_table)
 
         return accepted
                         
