@@ -21,9 +21,9 @@ class Compiler:
         self.pos = 0
 
         if self.subcomp:
-            self.state = PROGRAM
-        else:
             self.state = CORPO
+        else:
+            self.state = PROGRAM
 
         while self.pos != len(self.tokens):
             token_atual = self.tokens[self.pos]
