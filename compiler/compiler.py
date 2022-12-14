@@ -1,5 +1,9 @@
 import my_token
 
+# Estados
+DC = 0 # DECLARAÇÃO DE VAR
+CORPO = 1 # CORPO DO CODIGO
+
 class Compiler:
 
     def __init__(self, tokens: 'list[my_token.Token]', symbol_table: 'dict') -> None:
@@ -14,6 +18,8 @@ class Compiler:
         self.data = []
         self.pos = 0
 
+        self.state = DC
+
         while self.pos != len(self.tokens):
             token_atual = self.tokens[-1]
 
@@ -22,7 +28,7 @@ class Compiler:
                     self.code.append('INPP')
                 
                 elif token_atual.value == 'begin':
-                    pass
+                    self.state = CORPO
                 
                 elif token_atual.value == 'end':
                     self.code.append('PARA')
@@ -55,7 +61,10 @@ class Compiler:
                     pass
 
             elif token_atual.type == my_token.TokenType.IDENT:
-                self.code.append('CRVL {}'.format(self.symbol_table[token_atual.value].address))
+                if self.state == DC:
+                    self.code.append('ALME 1'.format(self.symbol_table[token_atual.value].address))
+                elif self.state == CORPO:
+                    self.code.append('CRVL {}'.format(self.symbol_table[token_atual.value].address))
 
             elif (token_atual.type == my_token.TokenType.SPACE or
                 token_atual.type == my_token.TokenType.COMMENT):
