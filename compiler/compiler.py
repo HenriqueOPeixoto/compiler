@@ -22,6 +22,7 @@ class Compiler:
 
         atrib = False # É uma atribuição
         last_ident = None # Último identificador. Usado em expressões
+        reading_input = False # Está lendo uma variável?
 
         if self.subcomp:
             self.state = CORPO
@@ -49,8 +50,13 @@ class Compiler:
                 
                 elif token_atual.value == 'read':
                     self.code.append('LEIT')
+                    reading_input = True
                 
                 elif token_atual.value == 'write':
+                    cont = self.pos
+                    while self.tokens[cont].type != my_token.TokenType.IDENT:
+                        cont += 1
+                    self.code.append('CRVL {}'.format(self.symbol_table[self.tokens[cont].value].address))
                     self.code.append('IMPR')
                 
                 elif token_atual.value == 'if':
@@ -82,8 +88,12 @@ class Compiler:
                         if self.tokens[cont].type == my_token.TokenType.ATRIB:
                             atrib = True
                         cont += 1
+                    
                     if atrib:
                         last_ident = token_atual
+                    elif reading_input:
+                        self.code.append('ARMZ {}'.format(self.symbol_table[token_atual.value].address))
+                        reading_input = False
                     else:
                         self.code.append('CRVL {}'.format(self.symbol_table[token_atual.value].address))
 
