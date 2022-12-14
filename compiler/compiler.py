@@ -1,6 +1,7 @@
 import my_token
 
 # Estados
+PROGRAM = -1 # nome do programa
 DC = 0 # DECLARAÇÃO DE VAR
 CORPO = 1 # CORPO DO CODIGO
 
@@ -18,7 +19,7 @@ class Compiler:
         self.data = []
         self.pos = 0
 
-        self.state = DC
+        self.state = PROGRAM
 
         while self.pos != len(self.tokens):
             token_atual = self.tokens[-1]
@@ -61,6 +62,8 @@ class Compiler:
                     pass
 
             elif token_atual.type == my_token.TokenType.IDENT:
+                if self.state == PROGRAM:
+                    self.state = DC
                 if self.state == DC:
                     self.code.append('ALME 1'.format(self.symbol_table[token_atual.value].address))
                 elif self.state == CORPO:
