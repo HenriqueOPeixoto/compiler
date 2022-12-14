@@ -9,7 +9,6 @@ class Compiler:
 
     def __init__(self, tokens: 'list[my_token.Token]', symbol_table: 'dict') -> None:
         self.tokens = tokens
-        self.tokens.reverse()
 
         self.symbol_table = symbol_table
 
@@ -22,7 +21,7 @@ class Compiler:
         self.state = PROGRAM
 
         while self.pos != len(self.tokens):
-            token_atual = self.tokens[-1]
+            token_atual = self.tokens[self.pos]
 
             if token_atual.type == my_token.TokenType.KEYWORD:
                 if token_atual.value == 'program':
@@ -90,10 +89,7 @@ class Compiler:
                     pass
 
                 elif token_atual.value == '.':
-                    if self.code[-1] == '.' and len(self.code) == 1:
-                        pass
-                    else:
-                        pass
+                    pass
 
             elif token_atual.type == my_token.TokenType.OPEN_PAR:
                 if token_atual.value == '(':
@@ -131,7 +127,7 @@ class Compiler:
                 print('last token:', token_atual.to_string())
                 break
         
-            self.tokens.pop()
+            self.pos += 1
         
         if show_code:
             for inst in self.code:
