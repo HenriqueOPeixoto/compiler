@@ -31,7 +31,8 @@ def shunting_yard(tokens: 'list[my_token.Token]'):
 
     for token in tokens:
         if (token.type == my_token.TokenType.DIGIT or
-        token.type == my_token.TokenType.REAL_NUM):
+        token.type == my_token.TokenType.REAL_NUM or
+        token.type == my_token.TokenType.IDENT):
             out.append(token)
         elif token.type == my_token.TokenType.OPERATOR:
             if token.value == '+' or token.value == '-':
