@@ -15,7 +15,7 @@ def parse_cmd_args():
     parser.add_argument('file', help='The path to the file you wish to compile.')
     parser.add_argument('-t', '--tokens', help="Toggles token printing for debugging",
                         action='store_true')
-    parser.add_argument('-c', '--count', help='Prints identified tokens amount (ignores whitespace and newline tokens)',
+    parser.add_argument('--count', help='Prints identified tokens amount (ignores whitespace and newline tokens)',
                         action='store_true')
     parser.add_argument('-p', '--parse_steps', help='Prints all of the parsing steps',
                         action='store_true')
