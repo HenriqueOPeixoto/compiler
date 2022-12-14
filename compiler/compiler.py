@@ -2,9 +2,11 @@ import my_token
 
 class Compiler:
 
-    def __init__(self, tokens: 'list[my_token.Token]') -> None:
+    def __init__(self, tokens: 'list[my_token.Token]', symbol_table: 'dict') -> None:
         self.tokens = tokens
         self.tokens.reverse()
+
+        self.symbol_table = symbol_table
 
     # Geração de código objeto
     def compile(self):
@@ -55,7 +57,7 @@ class Compiler:
                     pass
 
             elif token_atual.type == my_token.TokenType.IDENT:
-                pass
+                self.code.append('CRVL {}'.format(self.symbol_table[token_atual.value]))
 
             elif (token_atual.type == my_token.TokenType.SPACE or
                 token_atual.type == my_token.TokenType.COMMENT):
@@ -94,23 +96,23 @@ class Compiler:
             
             elif token_atual.type == my_token.TokenType.OPERATOR:
                 if token_atual.value == '*':
-                    pass
+                    self.code.append('MULT')
                 
                 elif token_atual.value == '/':
-                    pass
+                    self.code.append('DIVI')
                 
                 elif token_atual.value == '+':
-                    pass
+                    self.code.append('SOMA')
                 
                 elif token_atual.value == '-':
-                    pass
+                    self.code.append('SUBT')
             
             
             elif token_atual.type == my_token.TokenType.DIGIT:
-                pass
+                self.code.append('CRCT {}'.format(token_atual.value) )
             
             elif token_atual.type == my_token.TokenType.REAL_NUM:
-                pass
+                self.code.append('CRCT {}'.format(token_atual.value) )
 
             elif token_atual.type == my_token.TokenType.LOGICAL_OP:
                 pass
