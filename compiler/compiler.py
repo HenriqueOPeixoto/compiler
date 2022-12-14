@@ -20,6 +20,9 @@ class Compiler:
         self.data = []
         self.pos = 0
 
+        atrib = False # É uma atribuição
+        last_ident = None # Último identificador. Usado em expressões
+
         if self.subcomp:
             self.state = CORPO
         else:
@@ -71,7 +74,18 @@ class Compiler:
                 if self.state == DC:
                     self.code.append('ALME 1')
                 elif self.state == CORPO:
-                    self.code.append('CRVL {}'.format(self.symbol_table[token_atual.value].address))
+                    cont = self.pos
+
+                    while (self.tokens[cont].type != my_token.TokenType.SEPARATOR
+                        and self.tokens[cont].type != my_token.TokenType.KEYWORD
+                        and self.subcomp == False):
+                        if self.tokens[cont].type == my_token.TokenType.ATRIB:
+                            atrib = True
+                        cont += 1
+                    if atrib:
+                        last_ident = token_atual
+                    else:
+                        self.code.append('CRVL {}'.format(self.symbol_table[token_atual.value].address))
 
             elif (token_atual.type == my_token.TokenType.SPACE or
                 token_atual.type == my_token.TokenType.COMMENT):
@@ -92,6 +106,7 @@ class Compiler:
                     # Chama um subcompilador para gerar o código da expressão
                     subcomp = Compiler(expr_tokens, self.symbol_table, subcomp=True) 
                     self.code.append(subcomp.compile())
+                    self.code.append('ARMZ {}'.format(self.symbol_table[last_ident.value].address))
 
                     # Pula o código que já foi compilado
                     self.pos = cont
