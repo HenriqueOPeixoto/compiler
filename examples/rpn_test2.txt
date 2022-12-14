@@ -1,0 +1,6 @@
+program teste
+    real: a, b;
+
+begin
+    a := b + 3 * 5
+end.
