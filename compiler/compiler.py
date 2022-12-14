@@ -1,4 +1,5 @@
 import my_token
+import utils.rpn as rpn
 
 # Estados
 PROGRAM = -1 # nome do programa
@@ -76,7 +77,14 @@ class Compiler:
                 pass
             
             elif token_atual.type == my_token.TokenType.ATRIB:
-               pass
+                if token_atual.value == ':=':
+                    cont = self.pos + 1
+                    expr_tokens = [] # pega os tokens da expressao atual para converter para rpn
+                    while self.tokens[cont].type != my_token.TokenType.SEPARATOR:
+                        expr_tokens.append(self.tokens[cont])
+                        cont += 1
+                    expr_tokens = rpn.shunting_yard(expr_tokens) #coloca a expressao em rpn 
+                    print(expr_tokens)   
             
             elif token_atual.type == my_token.TokenType.SEPARATOR:
                 if token_atual.value == ',':
