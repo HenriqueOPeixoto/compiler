@@ -64,7 +64,7 @@ class Compiler:
                 if self.state == PROGRAM:
                     self.state = DC
                 if self.state == DC:
-                    self.code.append('ALME 1'.format(self.symbol_table[token_atual.value].address))
+                    self.code.append('ALME 1')
                 elif self.state == CORPO:
                     self.code.append('CRVL {}'.format(self.symbol_table[token_atual.value].address))
 
