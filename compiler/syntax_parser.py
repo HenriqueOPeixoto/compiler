@@ -37,6 +37,8 @@ class Parser:
         self.stack.reverse()
         self.tokens.reverse() # makes tokens look like a stack
 
+        address = 0 # contador de endereço
+
         while self.stack[0] != '.' or accepted == False:
 
             token_atual = self.tokens[-1]
@@ -207,9 +209,10 @@ class Parser:
                     if self.define_type:
                         if token_atual.value in self.symbol_table:
                             raise SemanticError('Um identificador com o nome \'{}\' já existe.'.format(token_atual.value), self.filename, self.linenum)
-                        symbol_details = SymbolTableData(self.var_type, 0)
+                        symbol_details = SymbolTableData(self.var_type, address)
                         self.symbol_table[token_atual.value] = symbol_details # Var type é definido de acordo com
                                                                              # o token mais recente, real ou integer.
+                        address += 1
                     self.match()
                 else:
                         raise ParseError('Era esperado um token da regra {}, mas recebi {}'.format(self.stack[-1], token_atual.to_string()), self.filename, self.linenum)
