@@ -27,7 +27,7 @@ def shunting_yard(tokens: 'list[my_token.Token]'):
     stack:'list[my_token.Token]' = []
     precedence = -1
 
-    tokens.append(my_token.Token('$', my_token.TokenType.EOF))
+    #tokens.append(my_token.Token('$', my_token.TokenType.EOF))
 
     for token in tokens:
         if (token.type == my_token.TokenType.DIGIT or
