@@ -422,5 +422,5 @@ class Parser:
             print('|-Imprimindo tabela de símbolos:\n')
             print(self.symbol_table)
 
-        return accepted
+        return self.symbol_table
                         
