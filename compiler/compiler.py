@@ -16,8 +16,6 @@ class Compiler:
 
         while self.pos != len(self.tokens):
             token_atual = self.tokens[-1]
-            
-            token_atual = self.tokens[-1]
 
             if token_atual.type == my_token.TokenType.KEYWORD:
                 if token_atual.value == 'program':
@@ -36,10 +34,10 @@ class Compiler:
                     pass
                 
                 elif token_atual.value == 'read':
-                    self.code('LEIT')
+                    self.code.append('LEIT')
                 
                 elif token_atual.value == 'write':
-                    self.code('IMPR')
+                    self.code.append('IMPR')
                 
                 elif token_atual.value == 'if':
                     pass
@@ -57,15 +55,14 @@ class Compiler:
                     pass
 
             elif token_atual.type == my_token.TokenType.IDENT:
-                self.code.append('CRVL {}'.format(self.symbol_table[token_atual.value]))
+                self.code.append('CRVL {}'.format(self.symbol_table[token_atual.value].address))
 
             elif (token_atual.type == my_token.TokenType.SPACE or
                 token_atual.type == my_token.TokenType.COMMENT):
-                self.tokens.pop()
+                pass
             
             elif token_atual.type == my_token.TokenType.NEWLINE_TOKEN:
-                self.linenum += 1
-                self.tokens.pop()
+                pass
             
             elif token_atual.type == my_token.TokenType.ATRIB:
                pass
@@ -122,3 +119,4 @@ class Compiler:
                 print('last token:', token_atual.to_string())
                 break
         
+            self.tokens.pop()
