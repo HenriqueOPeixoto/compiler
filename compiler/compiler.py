@@ -13,7 +13,7 @@ class Compiler:
         self.symbol_table = symbol_table
 
     # Geração de código objeto
-    def compile(self):
+    def compile(self, show_code=False):
         self.code = []
         self.data = []
         self.pos = 0
@@ -129,3 +129,7 @@ class Compiler:
                 break
         
             self.tokens.pop()
+        
+        if show_code:
+            for inst in self.code:
+                print(inst)

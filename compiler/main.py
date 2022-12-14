@@ -24,6 +24,8 @@ def parse_cmd_args():
     parser.add_argument('--rpn', help='Debug RPN implementation, use only for testing. Will stop after lexical analysis. ' + 
                                         'The input file must only include numerical values and operators.',
                         action='store_true')
+    parser.add_argument('-c', '--code', help='Prints generated object code to standard output.',
+                        action='store_true')
     args = parser.parse_args()
     return args
 
@@ -94,7 +96,7 @@ try:
 
     print('Iniciando geração de código objeto...')
     comp = compiler.Compiler(tokens, symbol_table)
-    comp.compile()
+    comp.compile(args.code)
     print('|-Geração de código objeto concluída\n')
 
 except FileNotFoundError:
