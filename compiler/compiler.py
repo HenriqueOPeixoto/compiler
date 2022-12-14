@@ -8,10 +8,11 @@ CORPO = 1 # CORPO DO CODIGO
 
 class Compiler:
 
-    def __init__(self, tokens: 'list[my_token.Token]', symbol_table: 'dict') -> None:
+    def __init__(self, tokens: 'list[my_token.Token]', symbol_table: 'dict', subcomp=False) -> None:
         self.tokens = tokens
 
         self.symbol_table = symbol_table
+        self.subcomp = subcomp # Compiladores auxiliares executados durante a geração de expressões
 
     # Geração de código objeto
     def compile(self, show_code=False):
@@ -19,7 +20,10 @@ class Compiler:
         self.data = []
         self.pos = 0
 
-        self.state = PROGRAM
+        if self.subcomp:
+            self.state = PROGRAM
+        else:
+            self.state = CORPO
 
         while self.pos != len(self.tokens):
             token_atual = self.tokens[self.pos]
@@ -84,7 +88,11 @@ class Compiler:
                         expr_tokens.append(self.tokens[cont])
                         cont += 1
                     expr_tokens = rpn.shunting_yard(expr_tokens) #coloca a expressao em rpn 
-                    print(expr_tokens)   
+                    print(expr_tokens)
+                    subcomp = Compiler(expr_tokens, self.symbol_table)
+                    self.code.append(subcomp.compile())
+                    self.pos = cont
+                       
             
             elif token_atual.type == my_token.TokenType.SEPARATOR:
                 if token_atual.value == ',':
@@ -140,3 +148,5 @@ class Compiler:
         if show_code:
             for inst in self.code:
                 print(inst)
+        
+        return self.code
