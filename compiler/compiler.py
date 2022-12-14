@@ -89,8 +89,11 @@ class Compiler:
                         cont += 1
                     expr_tokens = rpn.shunting_yard(expr_tokens) #coloca a expressao em rpn 
                     print(expr_tokens)
-                    subcomp = Compiler(expr_tokens, self.symbol_table, subcomp=True)
+                    # Chama um subcompilador para gerar o código da expressão
+                    subcomp = Compiler(expr_tokens, self.symbol_table, subcomp=True) 
                     self.code.append(subcomp.compile())
+
+                    # Pula o código que já foi compilado
                     self.pos = cont
                        
             
