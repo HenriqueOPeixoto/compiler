@@ -3,6 +3,7 @@ import argparse
 
 import lex_scanner
 import syntax_parser
+import compiler
 
 import utils.rpn as rpn # for testing purposes
 import sys
@@ -83,12 +84,17 @@ try:
         sys.exit()
         
     
-    print('Iniciando Análise Sintática...')
+    print('Iniciando Análise Sintática e Semântica...')
     
     parser = syntax_parser.Parser(tokens, input_file.name)
-    parser.parse_syntax(print_steps=args.parse_steps, print_symbols=args.symbols)
+    symbol_table = parser.parse_syntax(print_steps=args.parse_steps, print_symbols=args.symbols)
 
     print('|-Análise sintática concluída\n')
+
+    print('Iniciando geração de código objeto...')
+    comp = compiler.Compiler(tokens, symbol_table)
+    comp.compile()
+    print('|-Geração de código objeto concluída\n')
 
 except FileNotFoundError:
     print('Não foi possível encontrar o arquivo especificado.')
