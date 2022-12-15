@@ -174,7 +174,9 @@ class Compiler:
             self.pos += 1
         
         if show_code:
+            inst_number = 1
             for inst in self.code:
-                print(inst)
+                print('{}. {}'.format(inst_number, inst))
+                inst_number += 1
         
         return self.code
