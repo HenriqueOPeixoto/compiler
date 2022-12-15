@@ -104,7 +104,7 @@ class Compiler:
             elif token_atual.type == my_token.TokenType.IDENT:
                 if self.state == PROGRAM:
                     self.state = DC
-                if self.state == DC:
+                elif self.state == DC:
                     self.code.append('ALME 1')
                 elif self.state == CORPO:
                     cont = self.pos
