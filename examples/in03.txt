@@ -1,9 +1,11 @@
 program teste
-    real: a;
+    real: a, b;
 
 begin
     if 2 < a then
         write(a)
+    else
+        write(b)
     $;
     write(a)
 end.
