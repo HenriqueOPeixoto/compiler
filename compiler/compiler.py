@@ -64,7 +64,7 @@ class Compiler:
                 elif token_atual.value == 'if':
                     cont = self.pos + 1
                     logical_op = None
-                    while self.tokens[cont].type != my_token.TokenType.KEYWORD:
+                    while self.tokens[cont].type != my_token.TokenType.KEYWORD: # até chegar no then
                         if self.tokens[cont].type == my_token.TokenType.IDENT:
                             self.code.append('CRVL {}'.format(self.symbol_table[self.tokens[cont].value].address))
                         elif (self.tokens[cont].type == my_token.TokenType.DIGIT or 
