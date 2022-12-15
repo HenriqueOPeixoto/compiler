@@ -1,0 +1,13 @@
+program teste
+    real: a,b;
+
+begin
+    b := 5;
+    a := 5 + b * 6;
+
+    if a > b then
+        write(b)
+    else
+        read(a)
+    $
+end.
