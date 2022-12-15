@@ -1,0 +1,9 @@
+program teste
+    real: a;
+
+begin
+    if 2 < a then
+        write(a)
+    $;
+    write(a)
+end.

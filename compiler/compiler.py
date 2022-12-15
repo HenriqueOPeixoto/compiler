@@ -58,9 +58,36 @@ class Compiler:
                         cont += 1
                     self.code.append('CRVL {}'.format(self.symbol_table[self.tokens[cont].value].address))
                     self.code.append('IMPR')
+
+                    self.pos = cont
                 
                 elif token_atual.value == 'if':
-                    pass
+                    cont = self.pos + 1
+                    logical_op = None
+                    while self.tokens[cont].type != my_token.TokenType.KEYWORD:
+                        if self.tokens[cont].type == my_token.TokenType.IDENT:
+                            self.code.append('CRVL {}'.format(self.symbol_table[self.tokens[cont].value].address))
+                        elif (self.tokens[cont].type == my_token.TokenType.DIGIT or 
+                            self.tokens[cont].type == my_token.TokenType.REAL_NUM):
+                            self.code.append('CRCT {}'.format(self.tokens[cont].value))
+                        elif self.tokens[cont].type == my_token.TokenType.LOGICAL_OP:
+                            logical_op = self.tokens[cont].value
+                        cont +=1
+
+                    if logical_op == '>':
+                        self.code.append('CPMA')
+                    elif logical_op == '<':
+                        self.code.append('CPME')
+                    elif logical_op == '=':
+                        self.code.append('CPIG')
+                    elif logical_op == '<>':
+                        self.code.append('CDES')
+                    elif logical_op == '>=':
+                        self.code.append('CMAI')
+                    elif logical_op == '<=':
+                        self.code.append('CPMI')
+                    
+                    self.pos = cont
                 
                 elif token_atual.value == 'then':
                     pass
