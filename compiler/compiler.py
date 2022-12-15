@@ -87,10 +87,25 @@ class Compiler:
                     elif logical_op == '<=':
                         self.code.append('CPMI')
                     
-                    self.pos = cont
+                    self.pos = cont - 1 # para voltar para o token 'then'
                 
                 elif token_atual.value == 'then':
-                    pass
+                    cont = self.pos + 1
+                    if_tokens = []
+                    while self.tokens[cont].value != '$': # Até chegar no fim do bloco if
+                        if_tokens.append(self.tokens[cont])
+                        cont += 1
+                    subcompiler = Compiler(if_tokens, self.symbol_table, subcomp=True)
+                    if_obj_code = subcompiler.compile() # compila código dentro do if
+
+                    # calculando número da instrução para fazer o desvio
+                    goto = len(self.code) + len(if_obj_code)
+
+                    self.code.append('DSVF {}'.format(goto))
+                    self.code.append(if_obj_code)
+
+                    self.pos = cont
+
 
                 elif token_atual.value == 'while':
                    pass
