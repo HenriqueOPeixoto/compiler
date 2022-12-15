@@ -168,10 +168,9 @@ class Compiler:
                         expr_tokens.append(self.tokens[cont])
                         cont += 1
                     expr_tokens = rpn.shunting_yard(expr_tokens) #coloca a expressao em rpn 
-                    print(expr_tokens)
                     # Chama um subcompilador para gerar o código da expressão
-                    subcomp = Compiler(expr_tokens, self.symbol_table, subcomp=True) 
-                    self.code.append(subcomp.compile())
+                    subcompiler = Compiler(expr_tokens, self.symbol_table, subcomp=True) 
+                    self.code.extend(subcompiler.compile())
                     self.code.append('ARMZ {}'.format(self.symbol_table[last_ident.value].address))
 
                     # Pula o código que já foi compilado
