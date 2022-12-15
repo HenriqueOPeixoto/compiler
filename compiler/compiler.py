@@ -92,7 +92,7 @@ class Compiler:
                 elif token_atual.value == 'then':
                     cont = self.pos + 1
                     if_tokens = []
-                    while self.tokens[cont].value != '$': # Até chegar no fim do bloco if
+                    while self.tokens[cont].value != '$' and self.tokens[cont].value != 'else': # Até chegar no fim do bloco if
                         if_tokens.append(self.tokens[cont])
                         cont += 1
                     subcompiler = Compiler(if_tokens, self.symbol_table, subcomp=True)
@@ -104,7 +104,7 @@ class Compiler:
                     self.code.append('DSVF {}'.format(goto))
                     self.code.extend(if_obj_code)
 
-                    self.pos = cont
+                    self.pos = cont - 1
 
 
                 elif token_atual.value == 'while':
@@ -114,7 +114,21 @@ class Compiler:
                    pass
                 
                 elif token_atual.value == 'else':
-                    pass
+                    cont = self.pos + 1
+                    else_tokens = []
+                    while self.tokens[cont].value != '$': # Até chegar no fim do bloco if
+                        else_tokens.append(self.tokens[cont])
+                        cont += 1
+                    subcompiler = Compiler(else_tokens, self.symbol_table, subcomp=True)
+                    if_obj_code = subcompiler.compile() # compila código dentro do if
+
+                    # calculando número da instrução para fazer o desvio
+                    goto = len(self.code) + 1 + len(if_obj_code)  # O +1 é para considerar a instrução de desvio que vou adicionar
+
+                    self.code.append('DSVI {}'.format(goto))
+                    self.code.extend(if_obj_code)
+
+                    self.pos = cont
 
             elif token_atual.type == my_token.TokenType.IDENT:
                 if self.state == PROGRAM:
