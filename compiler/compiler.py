@@ -99,10 +99,10 @@ class Compiler:
                     if_obj_code = subcompiler.compile() # compila código dentro do if
 
                     # calculando número da instrução para fazer o desvio
-                    goto = len(self.code) + len(if_obj_code)
+                    goto = len(self.code) + 1 + len(if_obj_code)  # O +1 é para considerar a instrução de desvio que vou adicionar
 
                     self.code.append('DSVF {}'.format(goto))
-                    self.code.append(if_obj_code)
+                    self.code.extend(if_obj_code)
 
                     self.pos = cont
 
