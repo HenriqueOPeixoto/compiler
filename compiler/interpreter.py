@@ -20,4 +20,8 @@ class Interpreter:
             if opcode == 'INPP':
                 pos = -1
             elif opcode == 'ALME':
-                self.data
+                operand = int(inst_atual[1])
+                self.data.extend([None for address in range(operand)])
+                pos += len(self.data)
+            
+            self.code.pop()
