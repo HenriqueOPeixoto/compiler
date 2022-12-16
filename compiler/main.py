@@ -9,6 +9,8 @@ import copy # Para não modificar a lista original de tokens
 import utils.rpn as rpn # for testing purposes
 import sys
 
+DEFAULT_FILENAME = 'out.txt'
+
 # Parse arguments inserted via command line interface
 def parse_cmd_args():
     parser = argparse.ArgumentParser()
@@ -100,19 +102,26 @@ try:
     comp = compiler.Compiler(tokens, symbol_table)
     obj_code = comp.compile(args.code)
     print('|-Geração de código objeto concluída\n')
+    
+    obj_code_str = ''
+    for inst in obj_code:
+        obj_code_str += inst + '\n'
 
     if args.output is not None:
-        
-        obj_code_str = ''
-        for inst in obj_code:
-            obj_code_str += inst + '\n'
-
         try:
             out_file = open(args.output, 'w')
             out_file.write(obj_code_str)
             out_file.close()
         except IOError as e:
             print(e)
+    else:
+        try:
+            out_file = open(DEFAULT_FILENAME, 'w')
+            out_file.write(obj_code_str)
+            out_file.close()
+        except IOError as e:
+            print(e)
+        
 
 except FileNotFoundError:
     print('Não foi possível encontrar o arquivo especificado.')
