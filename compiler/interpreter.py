@@ -13,7 +13,11 @@ class Interpreter:
     def execute(self):
 
         while self.code[-1] != 'PARA':
-            if self.code[-1] == 'INPP':
+            inst_atual = self.code[-1].split(' ') # separa a instrução em opcode e operando
+            opcode = inst_atual[0]
+            operand = None # Nem todas as instruções tem operando
+            
+            if opcode == 'INPP':
                 pos = -1
-            elif self.code[-1] == 'ALME':
-                pass
+            elif opcode == 'ALME':
+                self.data
