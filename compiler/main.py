@@ -26,6 +26,8 @@ def parse_cmd_args():
                         action='store_true')
     parser.add_argument('-c', '--code', help='Prints generated object code to standard output.',
                         action='store_true')
+    parser.add_argument('-o', '--output',
+                        metavar='FILE', help='Saves generated object code to an output file of your choice')
     args = parser.parse_args()
     return args
 
@@ -96,8 +98,21 @@ try:
 
     print('Iniciando geração de código objeto...')
     comp = compiler.Compiler(tokens, symbol_table)
-    comp.compile(args.code)
+    obj_code = comp.compile(args.code)
     print('|-Geração de código objeto concluída\n')
+
+    if args.output is not None:
+        
+        obj_code_str = ''
+        for inst in obj_code:
+            obj_code_str += inst + '\n'
+
+        try:
+            out_file = open(args.output, 'w')
+            out_file.write(obj_code_str)
+            out_file.close()
+        except IOError as e:
+            print(e)
 
 except FileNotFoundError:
     print('Não foi possível encontrar o arquivo especificado.')
