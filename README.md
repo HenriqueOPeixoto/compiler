@@ -20,7 +20,7 @@ To compile code in LAlg-v4 language run:
 
     python compiler/main.py file.txt
 
-The default behavior is to output code to a file named `out.txt`. Options can be passed when calling script via terminal, mostly to print additional information useful for debugging:
+The default behavior is to output code to a file named `out.txt`. Options can be passed when calling script via terminal, mostly to print additional information useful for debugging. Run script with `--help` option to see a list of them.
 
 | Options | Description |
 |---------|-------------|
