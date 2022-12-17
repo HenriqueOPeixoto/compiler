@@ -146,7 +146,7 @@ class Compiler:
                     subcompiler = Compiler(while_tokens, self.symbol_table, subcomp=True)
                     while_obj_code = subcompiler.compile()
 
-                    goto_false = len(self.code) + 2 + len(while_obj_code) # desvio quando condição falsa
+                    goto_false = len(self.code) + 1 + len(while_obj_code) # desvio quando condição falsa
                     goto_condition = len(self.code) - 3 # desvio para testar a condição novamente
 
                     self.code.append('DSVF {}'.format(goto_false))
