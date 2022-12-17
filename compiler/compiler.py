@@ -146,12 +146,14 @@ class Compiler:
                     subcompiler = Compiler(while_tokens, self.symbol_table, subcomp=True)
                     while_obj_code = subcompiler.compile()
 
-                    goto_false = len(self.code) + 1 + len(while_obj_code) # desvio quando condição falsa
-                    goto_true = len(self.code) # desvio quando condição verdadeira
+                    goto_false = len(self.code) + 2 + len(while_obj_code) # desvio quando condição falsa
+                    goto_condition = len(self.code) - 3 # desvio para testar a condição novamente
 
                     self.code.append('DSVF {}'.format(goto_false))
                     self.code.extend(while_obj_code)
-                    self.code.append('DSVI {}'.format(goto_true))
+                    self.code.append('DSVI {}'.format(goto_condition))
+
+                    self.pos = cont - 1
                 
                 elif token_atual.value == 'else':
                     cont = self.pos + 1
