@@ -164,7 +164,8 @@ class Compiler:
                 if token_atual.value == ':=':
                     cont = self.pos + 1
                     expr_tokens = [] # pega os tokens da expressao atual para converter para rpn
-                    while self.tokens[cont].type != my_token.TokenType.SEPARATOR:
+                    while (self.tokens[cont].type != my_token.TokenType.SEPARATOR and
+                            self.tokens[cont].type != my_token.TokenType.KEYWORD):
                         expr_tokens.append(self.tokens[cont])
                         cont += 1
                     expr_tokens = rpn.shunting_yard(expr_tokens) #coloca a expressao em rpn 
@@ -174,7 +175,7 @@ class Compiler:
                     self.code.append('ARMZ {}'.format(self.symbol_table[last_ident.value].address))
 
                     # Pula o código que já foi compilado
-                    self.pos = cont
+                    self.pos = cont - 1 # Se a expressao for a ultima linha, o -1 evita que pule o 'end'
                        
             
             elif token_atual.type == my_token.TokenType.SEPARATOR:
