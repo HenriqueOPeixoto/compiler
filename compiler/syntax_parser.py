@@ -17,6 +17,7 @@ class Parser:
         self.var_type = None
         self.define_type = False # Determina se deve definir o tipo de uma var
         self.atrib = None # Determina se deve atribuir valor a uma var
+        self.negation = False # determina se o - indica uma inversão de sinal
 
     def derivate(self, rule, terminal):
         self.stack.pop()
@@ -353,6 +354,7 @@ class Parser:
                     elif self.stack[-1] == '<termo>':
                         self.derivate(TERMO, T_MINUS)
                     elif self.stack[-1] == '<op_un>':
+                        self.negation = True
                         self.derivate(OP_UN, T_MINUS)
                     elif self.stack[-1] == '<outros_termos>':
                         self.derivate(OUTROS_TERMOS, T_MINUS)
@@ -361,6 +363,9 @@ class Parser:
                     elif self.stack[-1] == '<mais_fatores>':
                         self.derivate(MAIS_FATORES, T_MINUS)
                     elif self.stack[-1] == '-':
+                        if self.negation:
+                            token_atual.type = my_token.TokenType.NEGATION
+                            self.negation = False
                         self.match()
                     else:
                         raise ParseError('Era esperado um token da regra {}, mas recebi {}'.format(self.stack[-1], token_atual.to_string()), self.filename, self.linenum)
