@@ -27,7 +27,8 @@ class Parser:
     
     def match(self):
         self.stack.pop()
-        self.tokens.pop()
+        #self.tokens.pop()
+        self.pos += 1
 
 
     def parse_syntax(self, print_steps=False, print_symbols=False):
@@ -35,13 +36,14 @@ class Parser:
         accepted = False
         self.stack = ['<programa>', '.']
         self.stack.reverse()
-        self.tokens.reverse() # makes tokens look like a stack
+        #self.tokens.reverse() # makes tokens look like a stack
+        self.pos = 0
 
         address = 0 # contador de endereço
 
         while self.stack[0] != '.' or accepted == False:
 
-            token_atual = self.tokens[-1]
+            token_atual = self.tokens[self.pos]
             
             if print_steps:
                 print(token_atual.to_string(), self.stack[-1])
@@ -219,11 +221,13 @@ class Parser:
 
             elif (token_atual.type == my_token.TokenType.SPACE or
                 token_atual.type == my_token.TokenType.COMMENT):
-                self.tokens.pop()
+                #self.tokens.pop()
+                self.pos += 1
             
             elif token_atual.type == my_token.TokenType.NEWLINE_TOKEN:
                 self.linenum += 1
-                self.tokens.pop()
+                #self.tokens.pop()
+                self.pos += 1
             
             elif token_atual.type == my_token.TokenType.ATRIB:
                 if token_atual.value == ':' and self.stack[-1] == ':':
