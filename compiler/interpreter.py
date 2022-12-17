@@ -99,6 +99,8 @@ class Interpreter:
             elif opcode == 'DSVI':
                 operand = int(inst_atual[1])
                 self.pos = operand - 1 # -1 para evitar pular comandos
+            elif opcode == 'NEGA':
+                self.data.append(-self.data.pop())
                 
 
             self.pos += 1

@@ -265,6 +265,9 @@ class Compiler:
 
             elif token_atual.type == my_token.TokenType.LOGICAL_OP:
                 pass
+            
+            elif token_atual.type == my_token.TokenType.NEGATION:
+                self.code.append('NEGA')
 
             else:
                 print('stack:', self.code)
