@@ -1,0 +1,8 @@
+program teste
+    real: a,b;
+
+begin
+    b := 5;
+    a := -b;
+    write(a)
+end.
