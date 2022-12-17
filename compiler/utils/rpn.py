@@ -37,7 +37,7 @@ def shunting_yard(tokens: 'list[my_token.Token]'):
         elif token.type == my_token.TokenType.OPERATOR:
             if token.value == '+' or token.value == '-':
                 if len(stack) > 0:
-                    precedence = get_precedence(stack[-1])
+                    precedence = get_precedence(stack[-1].value)
                 else:
                     precedence == -1
 
@@ -51,7 +51,7 @@ def shunting_yard(tokens: 'list[my_token.Token]'):
             
             elif token.value == '*' or token.value == '/':
                 if len(stack) > 0:
-                    precedence = get_precedence(stack[-1])
+                    precedence = get_precedence(stack[-1].value)
                 else:
                     precedence == -1
 
@@ -65,7 +65,7 @@ def shunting_yard(tokens: 'list[my_token.Token]'):
             
             elif token.value == '^':
                 if len(stack) > 0:
-                    precedence = get_precedence(stack[-1])
+                    precedence = get_precedence(stack[-1].value)
                 else:
                     precedence == -1
 
