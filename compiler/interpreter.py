@@ -63,35 +63,42 @@ class Interpreter:
 
                 self.data.append(op1 / op2)
             elif opcode == 'CPME':
-                op1 = self.data.pop()
                 op2 = self.data.pop()
+                op1 = self.data.pop()
 
                 self.data.append(int(op1 < op2))
             elif opcode == 'CPMA':
-                op1 = self.data.pop()
                 op2 = self.data.pop()
+                op1 = self.data.pop()
 
                 self.data.append(int(op1 > op2))
             elif opcode == 'CPIG':
-                op1 = self.data.pop()
                 op2 = self.data.pop()
+                op1 = self.data.pop()
 
                 self.data.append(int(op1 == op2))
             elif opcode == 'CDES':
-                op1 = self.data.pop()
                 op2 = self.data.pop()
+                op1 = self.data.pop()
 
                 self.data.append(int(op1 != op2))
             elif opcode == 'CPMI':
-                op1 = self.data.pop()
                 op2 = self.data.pop()
+                op1 = self.data.pop()
 
                 self.data.append(int(op1 <= op2))
             elif opcode == 'CMAI':
-                op1 = self.data.pop()
                 op2 = self.data.pop()
+                op1 = self.data.pop()
 
                 self.data.append(int(op1 >= op2))
+            elif opcode == 'DSVF':
+                operand = int(inst_atual[1])
+                if self.data.pop() == 0:
+                    self.pos = operand - 1 # -1 para evitar pular comandos
+            elif opcode == 'DSVI':
+                operand = int(inst_atual[1])
+                self.pos = operand - 1 # -1 para evitar pular comandos
                 
 
             self.pos += 1
