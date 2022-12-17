@@ -108,7 +108,22 @@ class Compiler:
 
 
                 elif token_atual.value == 'while':
-                   pass
+                    cont = self.pos + 1
+                    while_tokens = []
+                    while self.tokens[cont].value != '$':
+                        while_tokens.append(self.tokens[cont])
+                        cont += 1
+                    subcompiler = Compiler(while_tokens, self.symbol_table, subcomp=True)
+                    while_obj_code = subcompiler.compile()
+
+                    goto_false = len(self.code) + 1 + len(while_obj_code) # desvio quando condição falsa
+                    goto_true = self.pos # desvio quando condição verdadeira
+
+                    self.code.append('DSVF {}'.format(goto_false))
+                    self.code.extend(while_obj_code)
+                    self.code.append('DSVI {}'.format(goto_true))
+                    
+
                 
                 elif token_atual.value == 'do':
                    pass
@@ -168,11 +183,14 @@ class Compiler:
                             self.tokens[cont].type != my_token.TokenType.KEYWORD):
                         expr_tokens.append(self.tokens[cont])
                         cont += 1
+                        if cont == len(self.tokens) and self.subcomp == True: # Escapa caso atrib seja a ultima linha do subcomp
+                            break
                     expr_tokens = rpn.shunting_yard(expr_tokens) #coloca a expressao em rpn 
                     # Chama um subcompilador para gerar o código da expressão
                     subcompiler = Compiler(expr_tokens, self.symbol_table, subcomp=True) 
                     self.code.extend(subcompiler.compile())
-                    self.code.append('ARMZ {}'.format(self.symbol_table[last_ident.value].address))
+                    if not self.subcomp:
+                        self.code.append('ARMZ {}'.format(self.symbol_table[last_ident.value].address))
 
                     # Pula o código que já foi compilado
                     self.pos = cont - 1 # Se a expressao for a ultima linha, o -1 evita que pule o 'end'
