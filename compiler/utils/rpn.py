@@ -7,14 +7,14 @@ MED_PRIORITY = 1 # Used in * and /
 MAX_PRIORITY = 2 # Used in ^
 UNARY_PRIORITY = 3 # Used in exp[]
 
-def get_precedence(op: str):
-    if op == "+" or op == "-":
+def get_precedence(op: my_token.Token):
+    if (op.value == "+" or op.value == "-") and op.type == my_token.TokenType.OPERATOR:
         return MIN_PRIORITY
-    elif op == "*" or op == "/":
+    elif op.value == "*" or op.value == "/":
         return MED_PRIORITY
-    elif op == "^":
+    elif op.value == "^":
         return MAX_PRIORITY
-    elif op == "exp":
+    elif op.value == "-" and op.type == my_token.TokenType.NEGATION:
         return UNARY_PRIORITY
     else:
         return -1;
@@ -37,13 +37,13 @@ def shunting_yard(tokens: 'list[my_token.Token]'):
         elif token.type == my_token.TokenType.OPERATOR:
             if token.value == '+' or token.value == '-':
                 if len(stack) > 0:
-                    precedence = get_precedence(stack[-1].value)
+                    precedence = get_precedence(stack[-1])
                 else:
                     precedence == -1
 
                 if precedence > MIN_PRIORITY:
                     while len(stack) > 0:
-                        if get_precedence(stack[-1].value) <= MIN_PRIORITY:
+                        if get_precedence(stack[-1]) <= MIN_PRIORITY:
                             break
 
                         out.append(stack.pop())
@@ -51,13 +51,13 @@ def shunting_yard(tokens: 'list[my_token.Token]'):
             
             elif token.value == '*' or token.value == '/':
                 if len(stack) > 0:
-                    precedence = get_precedence(stack[-1].value)
+                    precedence = get_precedence(stack[-1])
                 else:
                     precedence == -1
 
                 if precedence > MED_PRIORITY:
                     while len(stack) > 0:
-                        if get_precedence(stack[-1].value) <= MED_PRIORITY:
+                        if get_precedence(stack[-1]) <= MED_PRIORITY:
                             break
 
                         out.append(stack.pop())
@@ -65,13 +65,13 @@ def shunting_yard(tokens: 'list[my_token.Token]'):
             
             elif token.value == '^':
                 if len(stack) > 0:
-                    precedence = get_precedence(stack[-1].value)
+                    precedence = get_precedence(stack[-1])
                 else:
                     precedence == -1
 
                 if precedence > MAX_PRIORITY:
                     while len(stack) > 0:
-                        if get_precedence(stack[-1].value) <= MAX_PRIORITY:
+                        if get_precedence(stack[-1]) <= MAX_PRIORITY:
                             break
 
                         out.append(stack.pop())
@@ -90,6 +90,20 @@ def shunting_yard(tokens: 'list[my_token.Token]'):
             while len(stack) > 0:
                 out.append(stack.pop())
             out.append(token)
+        elif token.type == my_token.TokenType.NEGATION:
+            if len(stack) > 0:
+                precedence = get_precedence(stack[-1])
+            else:
+                precedence == -1
+
+            if precedence > UNARY_PRIORITY:
+                while len(stack) > 0:
+                    if get_precedence(stack[-1]) <= UNARY_PRIORITY:
+                        break
+
+                    out.append(stack.pop())
+            stack.append(token)
+            
         # EXP não foi implementado nessa linguagem
 
     while len(stack) > 0:
