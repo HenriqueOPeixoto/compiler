@@ -25,7 +25,7 @@ class Interpreter:
                 #pos += len(self.data)
             elif opcode == 'CRVL':
                 operand = int(inst_atual[1])
-                self.data.append(self.data[operand])
+                self.data.append(self.data[operand - 1])
                 #pos += 1
             elif opcode == 'CRCT':
                 operand = float(inst_atual[1])
