@@ -95,7 +95,7 @@ class Interpreter:
             elif opcode == 'DSVF':
                 operand = int(inst_atual[1])
                 if self.data.pop() == 0:
-                    self.pos = operand - 1 # -1 para evitar pular comandos
+                    self.pos = operand
             elif opcode == 'DSVI':
                 operand = int(inst_atual[1])
                 self.pos = operand - 1 # -1 para evitar pular comandos
