@@ -5,6 +5,8 @@ Compilador desenvolvido durante a disciplina de Compiladores II no curso de Ciê
 
 Compiler developed during Compilers II class of the Computer Science Course on UFMT.
 
+GitHub Page: https://github.com/HenriqueOPeixoto/compiler
+
 ## Usage
 
 This repository includes two main scripts: 
