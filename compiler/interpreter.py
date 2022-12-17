@@ -8,21 +8,22 @@ class Interpreter:
 
     def __init__(self, code: 'list[str]') -> None:
         self.code = code
-        self.code.reverse()
+        #self.code.reverse()
 
     def execute(self):
 
-        while self.code[-1] != 'PARA':
-            inst_atual = self.code[-1].split(' ') # separa a instrução em opcode e operando
+        while self.code[self.pos] != 'PARA':
+            inst_atual = self.code[self.pos].split(' ') # separa a instrução em opcode e operando
             opcode = inst_atual[0]
             operand = None # Nem todas as instruções tem operando
             
             if opcode == 'INPP':
-                pos = -1
+                #self.pos = -1
+                pass
             elif opcode == 'ALME':
                 operand = int(inst_atual[1])
                 self.data.extend([None for address in range(operand)])
-                #pos += len(self.data)
+                #self.pos += len(self.data)
             elif opcode == 'CRVL':
                 operand = int(inst_atual[1])
                 self.data.append(self.data[operand - 1])
@@ -93,4 +94,4 @@ class Interpreter:
                 self.data.append(int(op1 >= op2))
                 
 
-            self.code.pop()
+            self.pos += 1
