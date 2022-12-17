@@ -41,3 +41,4 @@ class TokenType(IntEnum):
     CLOSE_PAR = 17 # )
     REAL_NUM = 18 # float values
     NOT_REAL_NUM = 19
+    NEGATION = 20
