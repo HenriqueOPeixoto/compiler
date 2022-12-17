@@ -4,7 +4,7 @@ program teste
 begin
     a := 30;
     while a > 0 do
-        write(a)
+        write(a);
         a := a - 1
     $
 end.
