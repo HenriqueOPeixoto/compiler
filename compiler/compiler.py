@@ -147,7 +147,7 @@ class Compiler:
                     while_obj_code = subcompiler.compile()
 
                     goto_false = len(self.code) + 1 + len(while_obj_code) # desvio quando condição falsa
-                    goto_true = self.pos # desvio quando condição verdadeira
+                    goto_true = len(self.code) # desvio quando condição verdadeira
 
                     self.code.append('DSVF {}'.format(goto_false))
                     self.code.extend(while_obj_code)
