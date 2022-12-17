@@ -22,18 +22,24 @@ class Interpreter:
             elif opcode == 'ALME':
                 operand = int(inst_atual[1])
                 self.data.extend([None for address in range(operand)])
-                pos += len(self.data)
+                #pos += len(self.data)
             elif opcode == 'CRVL':
                 operand = int(inst_atual[1])
                 self.data.append(self.data[operand])
-                pos += 1
+                #pos += 1
             elif opcode == 'CRCT':
                 operand = float(inst_atual[1])
                 self.data.append(operand)
-                pos += 1
+                #pos += 1
             elif opcode == 'ARMZ':
                 operand = int(inst_atual[1]) - 1 # data é 0-based, por isso subtrai 1
                 self.data[operand] = self.data[-1]
-                pos -= 1
-            
+                #pos -= 1
+                self.data.pop()
+            elif opcode == 'IMPR':
+                print(self.data[-1])
+                self.data.pop()
+            elif opcode == 'LEIT':
+                self.data.append(int(input('>>> ')))
+
             self.code.pop()
