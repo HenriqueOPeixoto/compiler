@@ -18,7 +18,7 @@ This repository includes two main scripts:
 
 To compile code in LAlg-v4 language run:
 
-    compiler/main.py file.txt
+    python compiler/main.py file.txt
 
 The default behavior is to output code to a file named `out.txt`. Options can be passed when calling script via terminal, mostly to print additional information useful for debugging:
 
@@ -36,7 +36,7 @@ The default behavior is to output code to a file named `out.txt`. Options can be
 
 In order to run programs written in LAlg-v4 language, the `run.py` script can be used. It's only argument is the name of the file you will want to run. Example:
 
-    compiler/run.py file.txt
+    python compiler/run.py file.txt
 
 ## More info:
 
