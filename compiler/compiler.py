@@ -182,7 +182,7 @@ class Compiler:
 
                     while (self.tokens[cont].type != my_token.TokenType.SEPARATOR
                         and self.tokens[cont].type != my_token.TokenType.KEYWORD
-                        and self.subcomp == False):
+                        and cont < len(self.tokens) - 1):
                         if self.tokens[cont].type == my_token.TokenType.ATRIB:
                             atrib = True
                         cont += 1
@@ -216,8 +216,7 @@ class Compiler:
                     # Chama um subcompilador para gerar o código da expressão
                     subcompiler = Compiler(expr_tokens, self.symbol_table, subcomp=True) 
                     self.code.extend(subcompiler.compile())
-                    if not self.subcomp:
-                        self.code.append('ARMZ {}'.format(self.symbol_table[last_ident.value].address))
+                    self.code.append('ARMZ {}'.format(self.symbol_table[last_ident.value].address))
 
                     # Pula o código que já foi compilado
                     self.pos = cont - 1 # Se a expressao for a ultima linha, o -1 evita que pule o 'end'
