@@ -4,7 +4,6 @@ import argparse
 import lex_scanner
 import syntax_parser
 import compiler
-import copy # Para não modificar a lista original de tokens
 
 import utils.rpn as rpn # for testing purposes
 import sys
@@ -93,7 +92,7 @@ try:
     
     print('Iniciando Análise Sintática e Semântica...')
     
-    parser = syntax_parser.Parser(copy.deepcopy(tokens), input_file.name)
+    parser = syntax_parser.Parser(tokens, input_file.name)
     symbol_table = parser.parse_syntax(print_steps=args.parse_steps, print_symbols=args.symbols)
 
     print('|-Análise sintática concluída\n')
