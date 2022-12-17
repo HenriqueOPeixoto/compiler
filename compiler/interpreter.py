@@ -41,5 +41,25 @@ class Interpreter:
                 self.data.pop()
             elif opcode == 'LEIT':
                 self.data.append(int(input('>>> ')))
+            elif opcode == 'SOMA':
+                op1 = self.data.pop()
+                op2 = self.data.pop()
+
+                self.data.append(op1 + op2)
+            elif opcode == 'MULT':
+                op1 = self.data.pop()
+                op2 = self.data.pop()
+
+                self.data.append(op1 * op2)
+            elif opcode == 'SUBT':
+                op2 = self.data.pop()
+                op1 = self.data.pop()
+
+                self.data.append(op1 - op2)
+            elif opcode == 'DIVI':
+                op2 = self.data.pop()
+                op1 = self.data.pop()
+
+                self.data.append(op1 / op2)
 
             self.code.pop()
