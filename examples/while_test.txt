@@ -1,0 +1,9 @@
+program teste
+    real: a;
+
+begin
+    a := 30;
+    while a > 0 do
+        write(a)
+    $
+end.
